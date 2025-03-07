@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+    {% block titulo %}
+    Teste Web
+    {% endblock %}
+</title>
+</head>
+{% block body %}
+<body>
+<h1> <p> Tela inicial </p></h1>
+
+<h2><p> Seja Bem-Vindo </p></h2>
+
+{% block formulario %}
+<form method="post">
+    
+    {{form.csrf_token }}
+
+    {{ form.email.label }}
+    {{ form.email }}
+
+    {{ form.senha.label }}
+    {{ form.senha }}
+    
+    {{ form.login_botao }}
+    
+</form>
+{% endblock %}
+</body>
+{% endblock %}
+
+</html>

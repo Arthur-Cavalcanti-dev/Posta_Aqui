@@ -1,0 +1,28 @@
+{% extends "homepage.html" %}
+
+{% block titulo %}
+Criar conta - Savedphotos
+{% endblock %}
+
+{% block formulario %}
+
+<form method="post">
+    {{form.csrf_token }}
+
+    {{ form.username.label }}
+    {{ form.username }}
+    
+    {{ form.email.label }}
+    {{ form.email }}
+    
+    {{ form.senha.label }}
+    {{ form.senha }}
+
+    {{ form.confirmacao_de_senha.label }}
+    {{ form.confirmacao_de_senha }}
+        
+    {{ form.conta_botao }}
+        
+</form>
+    
+{% endblock %} 
