@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, FileField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from savedphotos.models import Usuario
 
@@ -19,3 +19,8 @@ class formconta(FlaskForm):
         usuario = Usuario.query.filter_by(email=field.data).first()
         if usuario:
             raise ValidationError("Este e-mail já está cadastrado.")
+        
+class fromfoto(FlaskForm):
+    foto = FileField("foto", validators=[DataRequired()])
+    botao_enviar = SubmitField("Enviar")
+    botao_cancelar = SubmitField("Cancelar")
