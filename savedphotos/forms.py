@@ -20,7 +20,6 @@ class formconta(FlaskForm):
         if usuario:
             raise ValidationError("Este e-mail já está cadastrado.")
         
-class fromfoto(FlaskForm):
+class formfoto(FlaskForm):
     foto = FileField("foto", validators=[DataRequired()])
     botao_enviar = SubmitField("Enviar")
-    botao_cancelar = SubmitField("Cancelar")

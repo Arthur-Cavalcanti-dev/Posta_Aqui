@@ -8,15 +8,27 @@ Perfil - {{usuario}}
 <body>
 <h1><p>Perfil do usuário: {{usuario.name}}</p></h1>
     
-<a href = "{{url_for('logout')}}">sair</a>
 
-<img src = "{{url_for ('static', filename = 'post/default.png' )}}">
+{% if form %}
 
-{% for fotos in usuario.fotos %}
+<form method="POST" enctype="multipart/form-data">
+
+{{ form.csrf_token }}
+
+{{ form.foto }}
+{{ form.botao_enviar }}
+
+{% endif %}
+
+</form>
 
 
-
+{% for foto in usuario.fotos %}
+    <img src="{{ url_for('static', filename='post/' + foto.imagem) }}" alt="Foto do usuário">
 {% endfor %}
+
+
+<a href = "{{url_for('logout')}}">sair</a>
 
 </body>
 {% endblock %}
