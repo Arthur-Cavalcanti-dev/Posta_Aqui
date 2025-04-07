@@ -14,11 +14,12 @@ class Usuario(db.Model, UserMixin):
 
     fotos = db.relationship('Foto', backref='usuario', lazy=True) 
 
-class Foto(db.Model):
+class Foto(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     imagem = db.Column(db.String(255), default='default.png')
     data_criacao = db.Column(db.DateTime, default=datetime.utcnow)
     id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
+    tags = db.Column(db.String(100), nullable = False)
 
 
 with app.app_context():
