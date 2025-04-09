@@ -1,16 +1,23 @@
-{%extends "homepage.html"%}
+{% extends "homepage.html" %}
 
 {% block body %}
-
 
 {% include "nav.html" %}
 
 <h1>Feed</h1>
 
+<form method="POST" action="{{ url_for('feed') }}">
+    {{ Formpesquisa.csrf_token }}
+
+    {{ Formpesquisa.Barra_de_pesquisa() }}
+    {{ Formpesquisa.botao_pesquisa() }}
+
+</form>
+
 {% for foto in fotos %}
-<a> href ="{{url_for('perfil', id_usuario =foto.id_usuario)}}"
-    <img src="{{ url_for('static', filename='post/' + foto.imagem) }}" alt="Foto do usuário">
-</a>
+    <a href="{{ url_for('perfil', id_usuario=foto.id_usuario) }}">
+        <img src="{{ url_for('static', filename='post/' + foto.imagem) }}" alt="Foto do usuário">
+    </a>
 {% endfor %}
 
 {% endblock %}

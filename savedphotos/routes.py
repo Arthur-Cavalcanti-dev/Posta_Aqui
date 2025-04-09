@@ -1,12 +1,14 @@
 # criar rotas/link do site
 
-from savedphotos.forms import formconta, formlogin, formfoto
+from savedphotos.forms import formconta, formlogin, formfoto, formpesquisa
 from flask import render_template, url_for, redirect
 from savedphotos import app, bcrypt, db
 from savedphotos.models import Usuario, Foto
 from flask_login import login_required, login_user, logout_user, current_user
 import os
 from werkzeug.utils import secure_filename
+from rapidfuzz import fuzz
+import random
 
 @app.route("/", methods=["GET", "POST"])
 def homepage():
@@ -46,19 +48,20 @@ def perfil(id_usuario):
                 caminho = os.path.join(os.path.abspath(os.path.dirname(__file__)), 
                                        app.config["UPLOAD_FOLDER"], nomeseguro)
                 arquivo.save(caminho)
-
+                
+                tag = Formfoto.tag.data.strip()
                 # Salvar o arquivo no bd
-                foto = Foto(imagem=nomeseguro, id_usuario=current_user.id)
+
+                foto = Foto(imagem=nomeseguro, id_usuario=current_user.id, tags = tag)
                 db.session.add(foto)
                 db.session.commit()
+                return redirect(url_for("perfil", id_usuario=current_user.id))
 
         return render_template("perfilpage.html", usuario=current_user, form=Formfoto)
     else:
         # O usuario está em outra conta
         usuario = Usuario.query.get(int(id_usuario))
         return render_template("perfilpage.html", usuario = usuario, form = None)
-       
-
 
 @app.route("/logout")
 @login_required
@@ -66,8 +69,34 @@ def logout():
     logout_user()
     return redirect(url_for("homepage"))
 
-@app.route ("/feed")
+@app.route ("/feed", methods=["GET", "POST"])
 @login_required
 def feed ():
-    fotos = Foto.query.order_by(Foto.data_criacao).all()[:200]
-    return render_template ("feed.html", fotos = fotos)
+    Formpesquisa = formpesquisa()
+    fotos = Foto.query.order_by(Foto.data_criacao.desc()).all()[:200]
+    todas_as_fotos = Foto.query.all()
+    Buscar = ""
+    resultado = []
+
+    # sistema da barra de pesquisa
+    if Formpesquisa.validate_on_submit():
+        busca = Formpesquisa.Barra_de_pesquisa.data.lower()
+        for foto in fotos:
+            otimizacao_tag = [tag[1:].lower() for tag in foto.tags.split() if tag.startswith("#")]
+            for tag in otimizacao_tag:
+                if fuzz.partial_ratio(busca, tag) > 70:
+                    resultado.append(foto)
+                    break
+        fotos = resultado
+
+        # Fotos aleátorias a baixo das que foram pesquisadas
+        if len(fotos) < 10:
+            fotos_ids = [f.id for f in fotos]
+            outras_fotos = [f for f in todas_as_fotos if f.id not in fotos_ids]
+            fotos_aleatorias = random.sample(outras_fotos, min(10 - len(fotos), len(outras_fotos)))
+            fotos.extend(fotos_aleatorias)
+        else:
+            fotos = todas_as_fotos
+
+
+    return render_template ("feed.html", fotos = fotos, Formpesquisa = Formpesquisa)

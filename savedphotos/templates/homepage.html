@@ -5,15 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
     {% block titulo %}
-    Teste Web
+    Saved Photos
     {% endblock %}
 </title>
 </head>
 {% block body %}
 <body>
+
+    {% block Elementos %}
+<body>
+
+<h3>Não tem conta ainda?</h3>
+<h2>Não perca seu tempo e</h2>
+
+<nav>
+    <a href="{{ url_for('conta') }}"> Crie sua conta!</a>
+</nav>
+
 <h1> <p> Tela inicial </p></h1>
 
 <h2><p> Seja Bem-Vindo </p></h2>
+
+    {% endblock %}
 
 {% block formulario %}
 <form method="post">

@@ -20,6 +20,20 @@ class formconta(FlaskForm):
         if usuario:
             raise ValidationError("Este e-mail já está cadastrado.")
         
+def validador_tag (form, field):
+    tags = field.data.split(" ")
+    for tag in tags:
+        tag = tag.strip()
+        if not tag.startswith("#"):
+            raise ValidationError ("Todas as tags devem começar com #")
+        
 class formfoto(FlaskForm):
     foto = FileField("foto", validators=[DataRequired()])
     botao_enviar = SubmitField("Enviar")
+    tag = StringField("Tags", validators=[ DataRequired(), Length(min=2, max=200), validador_tag ],
+                      render_kw={"placeholder": "Tags..."})
+
+class formpesquisa (FlaskForm):
+    Barra_de_pesquisa = StringField ("Pesquisa", validators= [DataRequired(), Length(min=2, max=40)],
+                                      render_kw={"placeholder": "Pesquisar..."})
+    botao_pesquisa = SubmitField ("Pesquisar")
