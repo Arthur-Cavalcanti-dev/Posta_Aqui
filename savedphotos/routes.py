@@ -2,13 +2,16 @@
 
 from savedphotos.forms import formconta, formlogin, formfoto, formpesquisa
 from flask import render_template, url_for, redirect
-from savedphotos import app, bcrypt, db
+from savedphotos import app, bcrypt, db, mail
 from savedphotos.models import Usuario, Foto
 from flask_login import login_required, login_user, logout_user, current_user
 import os
 from werkzeug.utils import secure_filename
 from rapidfuzz import fuzz
 import random
+from flask import session
+from flask_mail import Message
+from itsdangerous import URLSafeTimedSerializer
 
 @app.route("/", methods=["GET", "POST"])
 def homepage():
@@ -20,18 +23,58 @@ def homepage():
             return redirect(url_for("perfil", id_usuario=usuario.id))
     return render_template("homepage.html", form=form_login)
 
+serializer = URLSafeTimedSerializer(app.config["SECRET_KEY"])
 
 @app.route("/criarconta", methods=["GET", "POST"])
 def conta():
-    form_criar_conta = formconta()
-    if form_criar_conta.validate_on_submit():
-        senha_hash = bcrypt.generate_password_hash(form_criar_conta.senha.data).decode("utf-8")
-        usuario = Usuario(name=form_criar_conta.username.data, senha=senha_hash, email=form_criar_conta.email.data)
-        db.session.add(usuario)
-        db.session.commit()
-        login_user(usuario, remember=True)
-        return redirect(url_for("perfil", id_usuario=usuario.id))
-    return render_template("criarconta.html", form=form_criar_conta)
+    form = formconta()
+    if form.validate_on_submit():
+        senha_hash = bcrypt.generate_password_hash(form.senha.data).decode("utf-8")
+
+        # Salvar temporariamente os dados
+        session["dados_temp"] = {"name": form.username.data, "email": form.email.data, "senha": senha_hash}
+
+        # Gerar token com o email
+        token = serializer.dumps(form.email.data, salt="verificacao-email")
+        link = url_for("confirmar_email", token=token, _external=True)
+
+        # Enviar o email
+        msg = Message("Confirme seu e-mail", sender="techimperium.ti@gmail.com", recipients=[form.email.data])
+        msg.body = f"Clique aqui para confirmar seu e-mail: {link}"
+        msg.html = f"""
+            <h1>Bem-vindo à nossa plataforma!</h1>
+            <p>Para confirmar seu e-mail, clique no link abaixo:</p>
+            <a href="{link}">Confirmar e-mail</a>
+            <p>Se você não se cadastrou, ignore esta mensagem.</p>
+            """
+        mail.send(msg)
+
+        return render_template("verificacaodeemail.html")
+    
+    return render_template("criarconta.html", form=form)
+
+
+@app.route("/confirmar_email/<token>")
+def confirmar_email(token):
+    try:
+        email = serializer.loads(token, salt="verificacao-email", max_age=1200) 
+    except:
+        return "Link inválido ou expirado."
+
+    dados = session.get("dados_temp")
+
+    if not dados or dados["email"] != email:
+        return "Erro: dados não encontrados ou e-mail não confere."
+
+    # Criar o usuário no bd
+    novo_usuario = Usuario(name=dados["name"], email=dados["email"], senha=dados["senha"])
+    db.session.add(novo_usuario)
+    db.session.commit()
+
+    login_user(novo_usuario)
+    session.pop("dados_temp", None)  # limpar os dados da sessão
+
+    return redirect(url_for("perfil", id_usuario=novo_usuario.id))
 
 
 @app.route("/perfil/<id_usuario>", methods = ["POST", "GET"])  
@@ -70,7 +113,6 @@ def logout():
     return redirect(url_for("homepage"))
 
 @app.route ("/feed", methods=["GET", "POST"])
-@login_required
 def feed ():
     Formpesquisa = formpesquisa()
     fotos = Foto.query.order_by(Foto.data_criacao.desc()).all()[:200]

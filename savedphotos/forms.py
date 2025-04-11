@@ -37,3 +37,6 @@ class formpesquisa (FlaskForm):
     Barra_de_pesquisa = StringField ("Pesquisa", validators= [DataRequired(), Length(min=2, max=40)],
                                       render_kw={"placeholder": "Pesquisar..."})
     botao_pesquisa = SubmitField ("Pesquisar")
+
+class formemail (FlaskForm):
+    botao_email = SubmitField("Enviar email de verificação")
