@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, FileField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from savedphotos.models import Usuario
+from PostaAqui.models import Usuario
 
 class formlogin(FlaskForm):
     email = StringField("E-mail", validators=[Email(), DataRequired()])
@@ -38,5 +38,5 @@ class formpesquisa (FlaskForm):
                                       render_kw={"placeholder": "Pesquisar..."})
     botao_pesquisa = SubmitField ("Pesquisar")
 
-class formemail (FlaskForm):
-    botao_email = SubmitField("Enviar email de verificação")
+class formfoto (FlaskForm):
+    botao_de_baixar = SubmitField ("Baixar")

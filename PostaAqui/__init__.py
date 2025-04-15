@@ -24,4 +24,4 @@ login_manager = LoginManager(app)
 mail = Mail(app)
 login_manager.login_view = "homepage"
 
-from savedphotos import routes
+from PostaAqui import routes

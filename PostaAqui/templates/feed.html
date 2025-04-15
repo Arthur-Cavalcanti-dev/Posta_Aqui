@@ -1,23 +1,34 @@
 {% extends "homepage.html" %}
 
-{% block body %}
+    {% block titulo %}
+    Posta Aqui - Descubra e Compartilhe
+    {% endblock %}
 
+
+{% block body %}
 {% include "nav.html" %}
 
 <h1>Feed</h1>
 
 <form method="POST" action="{{ url_for('feed') }}">
     {{ Formpesquisa.csrf_token }}
-
     {{ Formpesquisa.Barra_de_pesquisa() }}
     {{ Formpesquisa.botao_pesquisa() }}
-
 </form>
 
 {% for foto in fotos %}
+<div>
     <a href="{{ url_for('perfil', id_usuario=foto.id_usuario) }}">
         <img src="{{ url_for('static', filename='post/' + foto.imagem) }}" alt="Foto do usuário">
     </a>
+
+    <a href="{{ url_for('Download_de_Arquivos', filename=foto.imagem) }}" download>
+        <button>
+            ⬇️ Baixar
+        </button>
+    </a>
+</div>
+
 {% endfor %}
 
 {% endblock %}

@@ -1,4 +1,4 @@
-from savedphotos import db, login_manager, app
+from PostaAqui import db, login_manager, app
 from flask_login import UserMixin
 from datetime import datetime
 

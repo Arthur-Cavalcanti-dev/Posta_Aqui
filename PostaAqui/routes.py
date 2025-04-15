@@ -1,15 +1,12 @@
-# criar rotas/link do site
-
-from savedphotos.forms import formconta, formlogin, formfoto, formpesquisa
-from flask import render_template, url_for, redirect
-from savedphotos import app, bcrypt, db, mail
-from savedphotos.models import Usuario, Foto
+from PostaAqui.forms import formconta, formlogin, formfoto, formpesquisa
+from flask import render_template, url_for, redirect, session, send_from_directory
+from PostaAqui import app, bcrypt, db, mail
+from PostaAqui.models import Usuario, Foto
 from flask_login import login_required, login_user, logout_user, current_user
 import os
 from werkzeug.utils import secure_filename
 from rapidfuzz import fuzz
 import random
-from flask import session
 from flask_mail import Message
 from itsdangerous import URLSafeTimedSerializer
 
@@ -72,7 +69,7 @@ def confirmar_email(token):
     db.session.commit()
 
     login_user(novo_usuario)
-    session.pop("dados_temp", None)  # limpar os dados da sessão
+    session.pop("dados_temp", None)
 
     return redirect(url_for("perfil", id_usuario=novo_usuario.id))
 
@@ -81,12 +78,14 @@ def confirmar_email(token):
 @login_required
 def perfil(id_usuario):
     if int(id_usuario) == int(current_user.id):
+
         # O usuario ta no seu perfil
         Formfoto = formfoto ()
         if Formfoto.validate_on_submit():
             arquivo = Formfoto.foto.data
             if arquivo:
                 nomeseguro = secure_filename(arquivo.filename)
+
                 # Salvar o arquivo na pasta
                 caminho = os.path.join(os.path.abspath(os.path.dirname(__file__)), 
                                        app.config["UPLOAD_FOLDER"], nomeseguro)
@@ -101,6 +100,7 @@ def perfil(id_usuario):
                 return redirect(url_for("perfil", id_usuario=current_user.id))
 
         return render_template("perfilpage.html", usuario=current_user, form=Formfoto)
+    
     else:
         # O usuario está em outra conta
         usuario = Usuario.query.get(int(id_usuario))
@@ -142,3 +142,8 @@ def feed ():
 
 
     return render_template ("feed.html", fotos = fotos, Formpesquisa = Formpesquisa)
+
+@app.route("/Download/<filename>")
+def Download_de_Arquivos (filename):
+    caminho = os.path.join(app.root_path, "static", "post")
+    return send_from_directory(caminho, filename, as_attachment=True)
