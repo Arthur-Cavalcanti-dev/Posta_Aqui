@@ -1,7 +1,7 @@
 from PostaAqui.forms import formconta, formlogin, formfoto, formpesquisa
-from flask import render_template, url_for, redirect, session, send_from_directory
+from flask import render_template, url_for, redirect, session, send_from_directory, flash, request
 from PostaAqui import app, bcrypt, db, mail
-from PostaAqui.models import Usuario, Foto
+from PostaAqui.models import Usuario, Foto, Denuncia
 from flask_login import login_required, login_user, logout_user, current_user
 import os
 from werkzeug.utils import secure_filename
@@ -39,11 +39,26 @@ def conta():
         msg = Message("Confirme seu e-mail", sender="techimperium.ti@gmail.com", recipients=[form.email.data])
         msg.body = f"Clique aqui para confirmar seu e-mail: {link}"
         msg.html = f"""
-            <h1>Bem-vindo à nossa plataforma!</h1>
-            <p>Para confirmar seu e-mail, clique no link abaixo:</p>
-            <a href="{link}">Confirmar e-mail</a>
-            <p>Se você não se cadastrou, ignore esta mensagem.</p>
-            """
+        <h1>Confirmação de E-mail – Poste Aqui</h1>
+
+        <p>Olá,</p>
+
+        <p>Recebemos um pedido de cadastro utilizando este endereço de e-mail na plataforma <strong>Poste Aqui</strong>.</p>
+
+        <p>Para ativar sua conta e concluir o processo de verificação, por favor clique no link abaixo:</p>
+
+        <p><a href="{link}" style="background-color: #007BFF; color: #ffffff; padding: 10px 20px; text-decoration: none; 
+        border-radius: 5px;">Confirmar E-mail</a></p>
+
+        <p>Se você não realizou este cadastro, pode simplesmente ignorar esta mensagem. Nenhuma ação adicional será tomada.</p>
+        
+        <hr>
+
+        <p>Esta é uma mensagem automática. Em caso de dúvidas, entre em contato com nossa equipe em 
+        <a href="mailto:techimperium.ti@gmail.com">techimperium.ti@gmail.com</a>.</p>
+        
+        <p>Atenciosamente, <br> Equipe Poste Aqui.</p>"""
+
         mail.send(msg)
 
         return render_template("verificacaodeemail.html")
@@ -92,9 +107,10 @@ def perfil(id_usuario):
                 arquivo.save(caminho)
                 
                 tag = Formfoto.tag.data.strip()
+                nomefoto = Formfoto.nome_foto.data.strip()
                 # Salvar o arquivo no bd
 
-                foto = Foto(imagem=nomeseguro, id_usuario=current_user.id, tags = tag)
+                foto = Foto(imagem=nomeseguro, id_usuario=current_user.id, tags = tag, nome_foto = nomefoto)
                 db.session.add(foto)
                 db.session.commit()
                 return redirect(url_for("perfil", id_usuario=current_user.id))
@@ -147,3 +163,55 @@ def feed ():
 def Download_de_Arquivos (filename):
     caminho = os.path.join(app.root_path, "static", "post")
     return send_from_directory(caminho, filename, as_attachment=True)
+
+@app.route("/excluir/<int:id_usuario>/<filename>")
+def excluir_arquivos(id_usuario, filename):
+    if int(id_usuario) == int(current_user.id):
+        foto = Foto.query.filter_by(id_usuario=id_usuario, imagem=filename).first()
+        if foto:
+            db.session.delete(foto)
+            db.session.commit()
+    return redirect(url_for('perfil', id_usuario=id_usuario))
+
+@app.route("/denuncia/<filename>")
+@login_required
+def denuncia_foto(filename):
+    foto = Foto.query.filter_by(imagem=filename).first()
+
+    denuncia = Denuncia(id_foto=foto.id, id_usuario=current_user.id)
+    db.session.add(denuncia)
+    db.session.commit()
+    
+    total_denuncias = Denuncia.query.filter_by(id_foto=foto.id).count()
+
+    if total_denuncias > 2:
+        db.session.delete(foto)
+        db.session.commit()
+        flash("Denúncia registrada com sucesso.", "info")
+    
+    return redirect(request.referrer)
+
+
+@app.errorhandler(404)
+def pagina_não_encontrada(error):
+    return render_template ("error404.html"), 404
+
+@app.errorhandler(500)
+def erro_no_servidor(erro):
+    return render_template ("error500.html"), 500
+
+@app.route("/sobre-nos")
+def Sobre_nos():
+    return render_template("sobre_nos.html")
+
+@app.route("/Termos-de-Uso")
+def Termos_de_Uso():
+    return render_template("Termos_de_Uso.html")
+
+@app.route("/Politica_de_privacidade")
+def Politica_de_privacidade():
+    return render_template ("Politica_de_privacidade.html")
+
+@app.route("/perguntas_frequentes")
+def perguntas_frequentes():
+    return render_template ("perguntas_frequentes.html")

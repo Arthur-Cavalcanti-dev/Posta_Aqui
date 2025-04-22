@@ -30,13 +30,12 @@ def validador_tag (form, field):
 class formfoto(FlaskForm):
     foto = FileField("foto", validators=[DataRequired()])
     botao_enviar = SubmitField("Enviar")
-    tag = StringField("Tags", validators=[ DataRequired(), Length(min=2, max=200), validador_tag ],
+    nome_foto = StringField("Nome da foto", validators=[ DataRequired(), Length(min=2, max=100)],
+                      render_kw={"placeholder": "Título..."})
+    tag = StringField("Tags", validators=[ DataRequired(), Length(min=2, max=100), validador_tag ],
                       render_kw={"placeholder": "Tags..."})
 
 class formpesquisa (FlaskForm):
     Barra_de_pesquisa = StringField ("Pesquisa", validators= [DataRequired(), Length(min=2, max=40)],
                                       render_kw={"placeholder": "Pesquisar..."})
     botao_pesquisa = SubmitField ("Pesquisar")
-
-class formfoto (FlaskForm):
-    botao_de_baixar = SubmitField ("Baixar")

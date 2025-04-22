@@ -20,6 +20,15 @@ class Foto(db.Model, UserMixin):
     data_criacao = db.Column(db.DateTime, default=datetime.utcnow)
     id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
     tags = db.Column(db.String(100), nullable = False)
+    nome_foto = db.Column(db.String(100), nullable = False)
+
+class Denuncia(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    id_foto = db.Column(db.Integer, db.ForeignKey('foto.id'), nullable=False)
+    id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
+
+    data = db.Column(db.DateTime, default=datetime.utcnow)    
+denuncias = db.relationship('Denuncia', backref='foto', cascade="all, delete", lazy=True)
 
 
 with app.app_context():

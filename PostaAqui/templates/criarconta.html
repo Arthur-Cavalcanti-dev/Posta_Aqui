@@ -6,6 +6,9 @@ Posta Aqui - Crie sua conta!
 
 {% block body %}
 
+<h1>Posta Aqui</h1>
+<img src="{{url_for('static', filename='imagens_site/Life_5.png') }}" alt="">
+
 <h1>Seja Bem-Vindo</h1>
 
 <h2>Preencha o formulário para criar sua conta</h2>
@@ -33,5 +36,7 @@ Posta Aqui - Crie sua conta!
 </form>
     
 {% endblock %} 
+
+{% include 'routes_nav.html' %}
 
 {% endblock %}

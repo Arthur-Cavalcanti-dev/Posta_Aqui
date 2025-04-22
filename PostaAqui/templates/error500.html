@@ -1,0 +1,17 @@
+{% extends "homepage.html" %}
+
+{% block titulo %}
+Erro 500 - Internal Server Error
+{% endblock %}
+
+{% block body %}
+
+<img src="{{ url_for ('static', filename ='imagens_site/life_3.png') }}" alt="erro 500">
+
+<h1>⚠️ Ops... Alguém tropeçou nos fios!</h1>
+<p> Nosso servidor deu uma escorregada e agora está tentando se levantar. Já estamos cuidando disso! </p>
+<p>Tente novamente em alguns instantes ou entre em contato com nossa equipe de apoio <a href="{{ url_for('sobre_nos') }}">Sobre nós</a>.</p>
+
+{% include 'routes_nav.html' %}
+
+{% endblock %}

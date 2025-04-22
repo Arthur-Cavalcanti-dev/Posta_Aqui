@@ -11,6 +11,10 @@
 </head>
 {% block body %}
 
+<h1>Posta Aqui</h1>
+<img src="{{url_for('static', filename='imagens_site/Life_5.png') }}" alt="">
+
+<img src="{{url_for('static', filename='imagens_site/Life_4.png') }}" alt="">
 
 <h3>Não tem conta ainda?</h3>
 <h2>Não perca seu tempo e</h2>
@@ -41,6 +45,9 @@
     
 </form>
 {% endblock %}
+
+{% include 'routes_nav.html' %}
+
 </body>
 {% endblock %}
 

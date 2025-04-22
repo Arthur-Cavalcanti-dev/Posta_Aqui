@@ -1,11 +1,27 @@
 {% extends "homepage.html" %}
 
-    {% block titulo %}
-    Posta Aqui - Descubra e Compartilhe
-    {% endblock %}
+{% block titulo %}
+Posta Aqui - Descubra e Compartilhe
+{% endblock %}
 
 
 {% block body %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} mt-3" role="alert">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+
+
+<h1>Posta Aqui</h1>
+<img src="{{url_for('static', filename='imagens_site/Life_5.png') }}" alt="">
+
 {% include "nav.html" %}
 
 <h1>Feed</h1>
@@ -19,16 +35,24 @@
 {% for foto in fotos %}
 <div>
     <a href="{{ url_for('perfil', id_usuario=foto.id_usuario) }}">
-        <img src="{{ url_for('static', filename='post/' + foto.imagem) }}" alt="Foto do usuário">
+        <img src="{{ url_for('static', filename='post/' + foto.imagem) }}" alt="Foto_do_usuário.jpeg">
     </a>
+    <h3>{{ foto.nome_foto }}</h3>
 
     <a href="{{ url_for('Download_de_Arquivos', filename=foto.imagem) }}" download>
         <button>
             ⬇️ Baixar
         </button>
     </a>
+
+
+<a href="{{ url_for('denuncia_foto', filename=foto.imagem) }}">
+    <button>🚫 Denunciar</button>
+</a>
 </div>
 
 {% endfor %}
+
+{% include 'routes_nav.html' %}
 
 {% endblock %}

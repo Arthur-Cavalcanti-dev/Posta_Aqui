@@ -1,0 +1,20 @@
+{% extends "homepage.html" %}
+
+{% block titulo %}
+Erro 404 - Página não encontrada
+{% endblock %}
+
+{% block body %}
+
+<img src="{{ url_for('static', filename='imagens_site/Life_1.png') }}" alt="Erro 404">
+
+<h1>🚧 404 - Caminho sem saída!</h1>
+<p>Você tentou abrir uma página que ainda está em construção… ou talvez nem esteja nos planos. 🤔</p>
+<a href="{{ url_for('homepage') }}">Voltar para um lugar seguro</a>
+<p>
+  Caso o erro persista, vá para <a href="{{ url_for('Sobre_nos') }}">página de suporte</a> e entre em contato com a nossa equipe de apoio.
+</p>
+
+{% include 'routes_nav.html' %}
+
+{% endblock %}

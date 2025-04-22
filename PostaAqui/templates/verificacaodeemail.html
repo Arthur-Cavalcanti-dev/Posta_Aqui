@@ -1,5 +1,17 @@
 {% extends "homepage.html" %}
 
 {% block body %}
-<h1>Olhe seu email para confirmamos sua conta 😊</h1>
+
+<img src="{{url_for('static', filename='imagens_site/Life_2.png') }}" alt="">
+
+<h1>Olhe seu email para confirmamos sua conta </h1>
+
+<p>
+<p><strong>Não encontrou nosso e-mail?</strong></p>
+Se o link de confirmação não estiver em sua caixa de entrada, recomendamos verificar a pasta de spam, lixo eletrônico ou promoções.
+Às vezes, e-mails automáticos podem ser redirecionados por engano.
+</p>
+
+{% include 'routes_nav.html' %}
+
 {% endblock %}

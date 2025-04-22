@@ -9,7 +9,21 @@ Perfil - {{usuario}}
 {% endblock %}
 
 {% block body %}
-<body>
+
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} mt-3" role="alert">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+
+<h1>Posta Aqui</h1>
+<img src="{{url_for('static', filename='imagens_site/Life_5.png') }}" alt="">
 
 {% include "nav.html" %}
 
@@ -22,9 +36,10 @@ Perfil - {{usuario}}
 
 {{ form.csrf_token }}
 
-{{ form.foto }}
+{{ form.foto  }}
 {{ form.botao_enviar }}
-{{ form.tag }}
+{{ form.tag  }}
+{{ form.nome_foto }}
 
 </form>
 {% endif %}
@@ -32,8 +47,33 @@ Perfil - {{usuario}}
 
 
 {% for foto in usuario.fotos %}
+<div>
     <img src="{{ url_for('static', filename='post/' + foto.imagem) }}" alt="Foto do usuário">
+    <div><h3>{{ foto.nome_foto }}</h3></div>
+
+    <a href="{{ url_for('Download_de_Arquivos', filename=foto.imagem) }}" download>
+        <button>
+            ⬇️ Baixar
+        </button>
+    </a>
+    
+{% if current_user.id == foto.id_usuario %}
+
+    <a href="{{ url_for('excluir_arquivos', id_usuario=foto.id_usuario, filename=foto.imagem) }}">
+        <button>
+            ❌ Excluir
+        </button>
+    </a>
+{% endif %}
+
+<a href="{{ url_for('denuncia_foto', filename=foto.imagem) }}">
+    <button>🚫 Denunciar</button>
+</a>
+</div>
 {% endfor %}
 
-</body>
+
+{% include 'routes_nav.html' %}
+
+
 {% endblock %}
