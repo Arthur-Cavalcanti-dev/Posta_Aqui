@@ -6,37 +6,55 @@ Posta Aqui - Crie sua conta!
 
 {% block body %}
 
-<h1>Posta Aqui</h1>
-<img src="{{url_for('static', filename='imagens_site/Life_5.png') }}" alt="">
+{% block body %}
+<div class="titulo-com-mascote">
+    <img 
+      class="mascote-principal" 
+      src="{{ url_for('static', filename='imagens_site/Life_5.png') }}" 
+      alt="Mascote principal"
+    >
+    <h1 class="main-title">Posta Aqui</h1>
+</div>
 
-<h1>Seja Bem-Vindo</h1>
 
-<h2>Preencha o formulário para criar sua conta</h2>
+<h1 class="welcome-title">Seja Bem-Vindo</h1>
 
+<h2 class="form-subtitle">
+    Preencha o formulário para criar sua conta
+</h2>
 
 {% block formulario %}
 
-<form method="post">
-    {{form.csrf_token }}
+<form class="form-container" method="post">
+    {{ form.csrf_token }}
 
-    {{ form.username.label }}
-    {{ form.username }}
-    
-    {{ form.email.label }}
-    {{ form.email }}
-    
-    {{ form.senha.label }}
-    {{ form.senha }}
+    <div class="form-group">
+        {{ form.username.label(class="form-label") }}
+        {{ form.username(class="form-input") }}
+    </div>
 
-    {{ form.confirmacao_de_senha.label }}
-    {{ form.confirmacao_de_senha }}
-        
-    {{ form.conta_botao }}
-        
+    <div class="form-group">
+        {{ form.email.label(class="form-label") }}
+        {{ form.email(class="form-input") }}
+    </div>
+
+    <div class="form-group">
+        {{ form.senha.label(class="form-label") }}
+        {{ form.senha(class="form-input") }}
+    </div>
+
+    <div class="form-group">
+        {{ form.confirmacao_de_senha.label(class="form-label") }}
+        {{ form.confirmacao_de_senha(class="form-input") }}
+    </div>
+
+    <div class="form-group">
+        {{ form.conta_botao(class="btn btn-primary") }}
+    </div>
 </form>
-    
+
 {% endblock %} 
 
-{% include 'routes_nav.html' %}
+{% include "routes_nav.html" %}
 
 {% endblock %}

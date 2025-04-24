@@ -1,0 +1,30 @@
+
+  
+  .footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    padding: 20px 0;
+    background: rgba(0, 0, 0, 0.6); /* Sobreposição escura no rodapé */
+    color: white;
+    text-align: center;
+  }
+  
+  .footer-text {
+    margin: 0;
+  }
+  
+  .footer-links {
+    margin-top: 10px;
+  }
+  
+  .footer-link {
+    color: #fff;
+    margin: 0 10px;
+    text-decoration: none;
+  }
+  
+  .footer-link:hover {
+    text-decoration: underline;
+  }
+  

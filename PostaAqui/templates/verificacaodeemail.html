@@ -2,16 +2,30 @@
 
 {% block body %}
 
-<img src="{{url_for('static', filename='imagens_site/Life_2.png') }}" alt="">
+<div class="titulo-com-mascote">
+  <img 
+    class="mascote-principal" 
+    src="{{ url_for('static', filename='imagens_site/Life_5.png') }}" 
+    alt="Mascote principal"
+  >
+  <h1 class="main-title">Posta Aqui</h1>
+</div>
 
-<h1>Olhe seu email para confirmamos sua conta </h1>
 
-<p>
-<p><strong>Não encontrou nosso e-mail?</strong></p>
-Se o link de confirmação não estiver em sua caixa de entrada, recomendamos verificar a pasta de spam, lixo eletrônico ou promoções.
-Às vezes, e-mails automáticos podem ser redirecionados por engano.
+<img 
+  class="email-confirmation-image" 
+  src="{{ url_for('static', filename='imagens_site/Life_2.png') }}" 
+  alt="Imagem de confirmação de e-mail"
+>
+
+<h1 class="confirmation-title">Olhe seu email para confirmarmos sua conta</h1>
+
+<p class="confirmation-text">
+    <strong class="confirmation-warning">Não encontrou nosso e-mail?</strong><br>
+    Se o link de confirmação não estiver em sua caixa de entrada, recomendamos verificar a pasta de spam, lixo eletrônico ou promoções. 
+    Às vezes, e-mails automáticos podem ser redirecionados por engano.
 </p>
 
-{% include 'routes_nav.html' %}
+{% include "routes_nav.html" %}
 
 {% endblock %}

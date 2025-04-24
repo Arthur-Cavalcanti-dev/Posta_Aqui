@@ -1,54 +1,70 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+{% block head %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
     {% block titulo %}
     PostaAqui 
     {% endblock %}
-</title>
+    </title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/homepage.css') }}">
+
+{% endblock %}
 </head>
+<body>
 {% block body %}
 
-<h1>Posta Aqui</h1>
-<img src="{{url_for('static', filename='imagens_site/Life_5.png') }}" alt="">
+<div class="titulo-com-mascote">
+    <img 
+      class="mascote-principal" 
+      src="{{ url_for('static', filename='imagens_site/Life_5.png') }}" 
+      alt="Mascote principal"
+    >
+    <h1 class="main-title">Posta Aqui</h1>
+    {% include 'nav.html' %}
+</div>
 
-<img src="{{url_for('static', filename='imagens_site/Life_4.png') }}" alt="">
+<div class="area-cinza">
+    {% block formulario %}
+    <form class="login-form" method="post">
+        {{ form.csrf_token }}
 
-<h3>Não tem conta ainda?</h3>
-<h2>Não perca seu tempo e</h2>
+        <div class="form-group">
+            {{ form.email.label(class="form-label") }}
+            {{ form.email(class="form-input") }}
+        </div>
 
-<nav>
-    <a href="{{ url_for('conta') }}"> Crie sua conta!</a>
-    <a href="{{ url_for('feed') }}"> Feed</a>
-</nav>
+        <div class="form-group">
+            {{ form.senha.label(class="form-label") }}
+            {{ form.senha(class="form-input") }}
+        </div>
 
-<h1> <p> Tela inicial </p></h1>
+        <div class="form-group">
+            {{ form.login_botao(class="btn btn-login") }}
+        </div>
+    </form>
+    {% endblock %}
 
-<h2><p> Seja Bem-Vindo </p></h2>
-
-
-
-{% block formulario %}
-<form method="post">
-    
-    {{form.csrf_token }}
-
-    {{ form.email.label }}
-    {{ form.email }}
-
-    {{ form.senha.label }}
-    {{ form.senha }}
-    
-    {{ form.login_botao }}
-    
-</form>
-{% endblock %}
+    <div class="convite-area">
+        <p class="convite-texto">Ainda não tem conta ainda?</p>
+        <div class="cta-convite">
+            <img 
+                class="mascote-secundario" 
+                src="{{ url_for('static', filename='imagens_site/Life_4.png') }}" 
+                alt="Mascote secundário"
+            >
+            <a href="{{ url_for('conta') }}">
+                <button class="btn-criar-conta">Criar conta</button>
+            </a>
+        </div>
+    </div>
+</div>
 
 {% include 'routes_nav.html' %}
 
-</body>
 {% endblock %}
-
+</body>
 </html>

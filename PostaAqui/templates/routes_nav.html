@@ -1,12 +1,21 @@
 {% extends 'homepage.html' %}    
 
 {% block body %}
+    
+<link rel="stylesheet" href="{{ url_for('static', filename='css/routes_nav.css') }}">
 
-<hr>
+<hr class="divider">
 
-<footer>
-    <p>&copy; 2025 PostaAqui. Todos os direitos reservados. <a href="{{url_for ('Politica_de_privacidade')}}">Política de Provacidade</a> <a href="{{url_for ('Termos_de_Uso') }}">Termos de Uso</a> <a href="{{url_for ('perguntas_frequentes') }}">Perguntas Frequentes</a> </p>
-</footer>
-  
+<div class="fundo_routes_nav">
+    <footer class="footer">
+      <p class="footer-text">&copy; 2025 PostaAqui. Todos os direitos reservados.</p>
+      <div class="footer-links">
+          <a class="footer-link" href="{{ url_for('Politica_de_privacidade') }}">Política de Privacidade</a>
+          <a class="footer-link" href="{{ url_for('Termos_de_Uso') }}">Termos de Uso</a>
+          <a class="footer-link" href="{{ url_for('perguntas_frequentes') }}">Perguntas Frequentes</a>
+      </div>
+    </footer>
+  </div>
 
 {% endblock %}
+

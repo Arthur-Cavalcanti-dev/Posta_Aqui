@@ -4,55 +4,67 @@
 Posta Aqui - Descubra e Compartilhe
 {% endblock %}
 
-
 {% block body %}
 
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
     {% for category, message in messages %}
-      <div class="alert alert-{{ category }} mt-3" role="alert">
+      <div class="alert alert-{{ category }} mt-3 flash-message" role="alert">
         {{ message }}
       </div>
     {% endfor %}
   {% endif %}
 {% endwith %}
 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/feed.css') }}">
 
-
-<h1>Posta Aqui</h1>
-<img src="{{url_for('static', filename='imagens_site/Life_5.png') }}" alt="">
+<div class="titulo-com-mascote">
+  <img 
+    class="mascote-principal" 
+    src="{{ url_for('static', filename='imagens_site/Life_5.png') }}" 
+    alt="Mascote principal"
+  >
+  <h1 class="main-title">Posta Aqui</h1>
+</div>
 
 {% include "nav.html" %}
 
-<h1>Feed</h1>
-
-<form method="POST" action="{{ url_for('feed') }}">
-    {{ Formpesquisa.csrf_token }}
-    {{ Formpesquisa.Barra_de_pesquisa() }}
-    {{ Formpesquisa.botao_pesquisa() }}
-</form>
-
-{% for foto in fotos %}
-<div>
-    <a href="{{ url_for('perfil', id_usuario=foto.id_usuario) }}">
-        <img src="{{ url_for('static', filename='post/' + foto.imagem) }}" alt="Foto_do_usuário.jpeg">
-    </a>
-    <h3>{{ foto.nome_foto }}</h3>
-
-    <a href="{{ url_for('Download_de_Arquivos', filename=foto.imagem) }}" download>
-        <button>
-            ⬇️ Baixar
-        </button>
-    </a>
-
-
-<a href="{{ url_for('denuncia_foto', filename=foto.imagem) }}">
-    <button>🚫 Denunciar</button>
-</a>
+<div class="feed-topo">
+  <h2 class="feed-titulo">Feed</h2>
+  <div class="pesquisa-container">
+    <form class="pesquisa-form" method="POST" action="{{ url_for('feed') }}">
+      {{ Formpesquisa.csrf_token }}
+      {{ Formpesquisa.Barra_de_pesquisa(class="barra-pesquisa") }}
+      <button type="submit" class="btn-pesquisa">🔍</button>
+    </form>
+  </div>
 </div>
 
-{% endfor %}
 
-{% include 'routes_nav.html' %}
+<div class="fotos-galeria">
+  {% for foto in fotos %}
+    <div class="foto-container">
+      <div class="foto-acoes">
+        <a href="{{ url_for('Download_de_Arquivos', filename=foto.imagem) }}">
+          <button class="btn btn-download">⬇️ Baixar</button>
+        </a>
+        <a href="{{ url_for('denuncia_foto', filename=foto.imagem) }}">
+          <button class="btn btn-denunciar">🚫 Denunciar</button>
+        </a>
+      </div>
+
+      <a href="{{ url_for('perfil', id_usuario=foto.id_usuario) }}">
+        <img 
+          class="foto-imagem" 
+          src="{{ url_for('static', filename='post/' + foto.imagem) }}" 
+          alt="Foto do usuário">
+      </a>
+
+      <h3 class="foto-nome">{{ foto.nome_foto }}</h3>
+    </div>
+  {% endfor %}
+</div>
+
+{% include "routes_nav.html" %}
 
 {% endblock %}

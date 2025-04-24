@@ -6,12 +6,33 @@ Erro 500 - Internal Server Error
 
 {% block body %}
 
-<img src="{{ url_for ('static', filename ='imagens_site/life_3.png') }}" alt="erro 500">
+<div class="titulo-com-mascote">
+  <img 
+    class="mascote-principal" 
+    src="{{ url_for('static', filename='imagens_site/Life_5.png') }}" 
+    alt="Mascote principal"
+  >
+  <h1 class="main-title">Posta Aqui</h1>
+</div>
 
-<h1>⚠️ Ops... Alguém tropeçou nos fios!</h1>
-<p> Nosso servidor deu uma escorregada e agora está tentando se levantar. Já estamos cuidando disso! </p>
-<p>Tente novamente em alguns instantes ou entre em contato com nossa equipe de apoio <a href="{{ url_for('sobre_nos') }}">Sobre nós</a>.</p>
 
-{% include 'routes_nav.html' %}
+<img 
+  class="erro-imagem" 
+  src="{{ url_for('static', filename='imagens_site/life_3.png') }}" 
+  alt="Erro 500"
+>
+
+<h1 class="erro-titulo">⚠️ Ops... Alguém tropeçou nos fios!</h1>
+
+<p class="erro-descricao">
+  Nosso servidor deu uma escorregada e agora está tentando se levantar. Já estamos cuidando disso!
+</p>
+
+<p class="erro-suporte">
+  Tente novamente em alguns instantes ou entre em contato com nossa equipe de apoio 
+  <a class="link-suporte" href="{{ url_for('sobre_nos') }}">Sobre nós</a>.
+</p>
+
+{% include "routes_nav.html" %}
 
 {% endblock %}

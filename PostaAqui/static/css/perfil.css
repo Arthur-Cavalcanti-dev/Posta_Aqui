@@ -1,0 +1,290 @@
+/* Título da página de perfil */
+.perfil-title {
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+  font-weight: bold;
+  font-size: 32px;
+  margin-bottom: 30px;
+}
+
+
+body {
+  background-image: url('/static/imagens_site/fundo_site.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* Formulário */
+.hidden-input {
+  display: none;
+}
+
+.form-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  padding: 0;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Cartão de upload */
+.upload-card {
+  margin: 0 auto;
+  max-width: 900px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  padding: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.upload-section {
+  flex: 1;
+  min-width: 280px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.input-section {
+  flex: 1;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Drop area com visual de arrastar e soltar */
+.drop-area {
+  border: 2px dashed #00bcd4;
+  background-color: #e0f7fa;
+  border-radius: 15px;
+  color: #006064;
+  text-align: center;
+  font-weight: bold;
+  width: 100%;
+  max-width: 500px;
+  height: 300px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.drop-area.preview::before {
+  content: '';
+  background-image: var(--preview-image);
+  background-size: cover;
+  background-position: center;
+  opacity: 0.5;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  transition: background-image 0.3s ease-in-out;
+}
+
+.drop-area p {
+  z-index: 2;
+  margin-bottom: 10px;
+}
+
+.custom-file-upload {
+  font-size: 16px;
+  font-weight: bold;
+  color: #007bff;
+  background-color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 2px solid #007bff;
+  cursor: pointer;
+  z-index: 2;
+}
+
+/* Preview da imagem */
+.preview-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 400px;
+  margin-top: 20px;
+}
+
+#preview-image {
+  max-width: 100%;
+  border-radius: 10px;
+  display: none;
+}
+
+/* Formulário de perfil */
+.perfil-form {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.perfil-form .form-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.perfil-form .form-label {
+  font-weight: bold;
+  font-family: 'Segoe UI', sans-serif;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+.perfil-form .form-input {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+/* Botão de envio */
+.btn-submit {
+  padding: 12px;
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  max-width: 200px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  margin: 10px auto 0;
+  display: block;
+  text-align: center;
+}
+
+/* Galeria de fotos */
+.fotos-galeria {
+  column-count: 4; /* número de colunas (ajuste conforme largura da tela) */
+  column-gap: 20px;
+  padding: 0 20px;
+}
+
+@media (max-width: 1200px) {
+  .fotos-galeria {
+    column-count: 3;
+  }
+}
+
+@media (max-width: 800px) {
+  .fotos-galeria {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 500px) {
+  .fotos-galeria {
+    column-count: 1;
+}
+}
+
+.foto-container {
+  width: 280px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.foto-imagem {
+  width: 100%;
+  height: auto;
+  border-radius: 10px 10px 0 0;
+  display: block;
+}
+
+.foto-imagem:hover {
+  transform: scale(1.1); /* Aumenta a imagem em 10% */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Sombra para dar destaque */
+}
+
+.foto-container {
+  position: relative; /* necessário para posicionar os botões dentro do container */
+  display: inline-block;
+  width: 100%;
+  margin: 0 0 20px;
+  border-radius: 12px;
+  color: #000;
+  text-shadow: 2px 2px 5px white;
+  break-inside: avoid;
+  transition: transform 0.2s;
+}
+
+.foto-container:hover {
+  transform: translateY(-5px);
+}
+
+.foto-nome {
+  margin-top: 10px;
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #000000; 
+  text-shadow: 2px 2px 5px white; 
+}
+
+.foto-acoes {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 2;
+}
+
+.foto-container:hover .foto-acoes {
+  opacity: 1;
+}
+
+.btn {
+  font-size: 10px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-download {
+  background-color: #4caf50;
+  color: white;
+}
+
+.btn-delete {
+  background-color: #941107;
+  color: white;
+}
+
+.btn-denunciar {
+  background-color: #ff9800;
+  color: white;
+}

@@ -1,6 +1,10 @@
-<nav>
-    <a href="{{ url_for('feed') }}">Feed</a>
-    <a href = "{{url_for('logout')}}">sair</a>
-    <a href = "{{url_for('perfil', id_usuario =current_user.id)}}">Perfil</a>
-  </nav>
-  
+<div class="nav-bar-topo">
+  <div class="nav-left">
+      <a class="nav-link" href="{{ url_for('feed') }}">Feed</a>
+      <a class="nav-link" href="{{ url_for('perfil', id_usuario=current_user.id) }}">Perfil</a>
+  </div>
+  <div class="nav-right">
+      <a class="nav-link" href="{{ url_for('logout') }}">Sair</a>
+  </div>
+</div>
+

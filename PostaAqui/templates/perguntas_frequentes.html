@@ -6,91 +6,84 @@ Poste Aqui - Perguntas Frequentes
 
 {% block body %}
 
-<h1>Posta Aqui</h1>
-<img src="{{url_for('static', filename='imagens_site/Life_5.png') }}" alt="">
+<div class="titulo-com-mascote">
+    <img 
+      class="mascote-principal" 
+      src="{{ url_for('static', filename='imagens_site/Life_5.png') }}" 
+      alt="Mascote principal"
+    >
+    <h1 class="main-title">Posta Aqui</h1>
+</div>
 
-<div>
 
-<h2>1. O que é o Poste Aqui?</h2>
+<div class="faq-section">
 
-<p>O Poste Aqui é uma plataforma digital desenvolvida pela Tech Imperium, voltada para a descoberta, o compartilhamento e o download gratuito de imagens. Trata-se de uma comunidade visual colaborativa, criada para facilitar a troca de conteúdo criativo entre usuários, promovendo a inspiração e a liberdade de expressão através de imagens.</p>
+    <h2 class="faq-question">1. O que é o Poste Aqui?</h2>
+    <p class="faq-answer">O Poste Aqui é uma plataforma digital desenvolvida pela Tech Imperium, voltada para a descoberta, o compartilhamento e o download gratuito de imagens. Trata-se de uma comunidade visual colaborativa, criada para facilitar a troca de conteúdo criativo entre usuários, promovendo a inspiração e a liberdade de expressão através de imagens.</p>
 
 </div>
 <br>
 
-<div>
+<div class="faq-section">
 
-<h2>2. Preciso me cadastrar para usar o site?</h2>
-
-<p>Você pode navegar pela plataforma e baixar imagens públicas sem a necessidade de criar uma conta. No entanto, para aproveitar todos os recursos da comunidade, pórem para melhor experiência recomendamos realizar um cadastro simples e gratuito. </p>
-
-</div>
-<br>
-
-<div>
-
-<h2>3. Como faço para postar uma imagem?</h2>
-
-<p>Depois de se cadastrar e efetuar login na sua conta, acesse a área de envio de fotos (Perfil). Em seguida:
-<br>
-•   Selecione a imagem desejada em seu dispositivo;
-<br>    
-•   Insira um título descritivo e adicione tags (palavras-chave que devem começar com #) para facilitar a categorização;
-<br>    
-•   Clique no botão “Enviar” e pronto! Sua imagem será publicada em poucos instantes.</p>
+    <h2 class="faq-question">2. Preciso me cadastrar para usar o site?</h2>
+    <p class="faq-answer">Você pode navegar pela plataforma e baixar imagens públicas sem a necessidade de criar uma conta. No entanto, para aproveitar todos os recursos da comunidade, porém, para melhor experiência recomendamos realizar um cadastro simples e gratuito.</p>
 
 </div>
 <br>
 
-<div>
+<div class="faq-section">
 
-<h2>4. Posso baixar qualquer imagem?</h2>
-
-<p>Sim. Todas as imagens públicas disponíveis na plataforma podem ser baixadas gratuitamente, desde que o usuário respeite os direitos autorais, as licenças aplicáveis e os Termos de Uso da plataforma. O Poste Aqui valoriza o trabalho dos criadores, portanto, o uso responsável do conteúdo é fundamental.</p>
-
-</div>
-<br>
-
-<div>
-
-<h2>5. As imagens postadas são moderadas?</h2>
-
-<p>Sim. A equipe do Poste Aqui realiza um processo de moderação contínua por meio das denúcias dos usuários, isso garante que os conteúdos publicados estejam de acordo com nossos Termos de Uso. Imagens com conteúdo ofensivo, inapropriado ou que infrinjam direitos autorais poderão ser removidas sem aviso prévio.
-
-</p>
+    <h2 class="faq-question">3. Como faço para postar uma imagem?</h2>
+    <p class="faq-answer">Depois de se cadastrar e efetuar login na sua conta, acesse a área de envio de fotos (Perfil). Em seguida:
+        <br>•   Selecione a imagem desejada em seu dispositivo;
+        <br>•   Insira um título descritivo e adicione tags (palavras-chave que devem começar com #) para facilitar a categorização;
+        <br>•   Clique no botão “Enviar” e pronto! Sua imagem será publicada em poucos instantes.
+    </p>
 
 </div>
 <br>
 
-<div>
+<div class="faq-section">
 
-<h2>6. Posso excluir minhas imagens depois de publicadas?</h2>
-
-<p>Sim. Você tem total controle sobre o conteúdo que publica. Para remover uma imagem, basta acessar seu perfil de usuário, localizar a imagem desejada e clicar na opção “Deletar” ao lado dela. A exclusão é imediata e irreversível.</p>
+    <h2 class="faq-question">4. Posso baixar qualquer imagem?</h2>
+    <p class="faq-answer">Sim. Todas as imagens públicas disponíveis na plataforma podem ser baixadas gratuitamente, desde que o usuário respeite os direitos autorais, as licenças aplicáveis e os Termos de Uso da plataforma. O Poste Aqui valoriza o trabalho dos criadores, portanto, o uso responsável do conteúdo é fundamental.</p>
 
 </div>
 <br>
 
-<div>
+<div class="faq-section">
 
-<h2>7. Minhas informações estão seguras?</h2>
-
-<p>Sim. A segurança dos seus dados é uma prioridade para nós. Utilizamos protocolos modernos de segurança e criptografia para proteger suas informações pessoais. Nunca vendemos ou compartilhamos seus dados com terceiros, exceto quando necessário para a prestação dos serviços ou por obrigação legal. Para mais detalhes, consulte a nossa <a href="{{url_for ('Politica_de_privacidade')}}">Política de Provacidade</a>.</p>
+    <h2 class="faq-question">5. As imagens postadas são moderadas?</h2>
+    <p class="faq-answer">Sim. A equipe do Poste Aqui realiza um processo de moderação contínua por meio das denúncias dos usuários, garantindo que os conteúdos publicados estejam de acordo com nossos Termos de Uso. Imagens com conteúdo ofensivo, inapropriado ou que infrinjam direitos autorais poderão ser removidas sem aviso prévio.</p>
 
 </div>
-
-<div>
-
-<h2>8. Como posso entrar em contato com o suporte?</h2>
-
-<p>Se você tiver dúvidas, sugestões ou precisar de ajuda com algum recurso da plataforma, nossa equipe de suporte está à disposição. Entre em contato através do e-mail:
 <br>
-📩 techimperium.ti@gmail.com
-    
-</p>
+
+<div class="faq-section">
+
+    <h2 class="faq-question">6. Posso excluir minhas imagens depois de publicadas?</h2>
+    <p class="faq-answer">Sim. Você tem total controle sobre o conteúdo que publica. Para remover uma imagem, basta acessar seu perfil de usuário, localizar a imagem desejada e clicar na opção “Deletar” ao lado dela. A exclusão é imediata e irreversível.</p>
+
+</div>
+<br>
+
+<div class="faq-section">
+
+    <h2 class="faq-question">7. Minhas informações estão seguras?</h2>
+    <p class="faq-answer">Sim. A segurança dos seus dados é uma prioridade para nós. Utilizamos protocolos modernos de segurança e criptografia para proteger suas informações pessoais. Nunca vendemos ou compartilhamos seus dados com terceiros, exceto quando necessário para a prestação dos serviços ou por obrigação legal. Para mais detalhes, consulte a nossa <a href="{{url_for ('Politica_de_privacidade')}}">Política de Privacidade</a>.</p>
 
 </div>
 
-{% include 'routes_nav.html' %}
+<div class="faq-section">
+
+    <h2 class="faq-question">8. Como posso entrar em contato com o suporte?</h2>
+    <p class="faq-answer">Se você tiver dúvidas, sugestões ou precisar de ajuda com algum recurso da plataforma, nossa equipe de suporte está à disposição. Entre em contato através do e-mail:
+        <br>📩 techimperium.ti@gmail.com
+    </p>
+
+</div>
+
+{% include "routes_nav.html" %}
 
 {% endblock %}

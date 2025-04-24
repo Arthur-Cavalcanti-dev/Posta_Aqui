@@ -1,79 +1,143 @@
 {% extends "homepage.html" %}
 
 {% block titulo %}
-PostaAqui - {{usuario.name}}
+PostaAqui - {{ usuario.name }}
 {% endblock %}
 
 {% block Perfil %}
-Perfil - {{usuario}}
+<div class="perfil-title">
+  Perfil - {{ usuario.name }}
+</div>
 {% endblock %}
 
 {% block body %}
 
-
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
     {% for category, message in messages %}
-      <div class="alert alert-{{ category }} mt-3" role="alert">
+      <div class="alert alert-{{ category }} mt-3 flash-message" role="alert">
         {{ message }}
       </div>
     {% endfor %}
   {% endif %}
 {% endwith %}
 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}">
 
-<h1>Posta Aqui</h1>
-<img src="{{url_for('static', filename='imagens_site/Life_5.png') }}" alt="">
+<div class="titulo-com-mascote">
+  <img 
+    class="mascote-principal" 
+    src="{{ url_for('static', filename='imagens_site/Life_5.png') }}" 
+    alt="Mascote principal"
+  >
+  <h1 class="main-title">Posta Aqui</h1>
+  {% include 'nav.html' %}
+</div>
 
-{% include "nav.html" %}
-
-<h1><p>Perfil do usuário: {{usuario.name}}</p></h1>
-    
+<h1 class="perfil-title"><p>Perfil do usuário: {{ usuario.name }}</p></h1>
 
 {% if form %}
+<div class="form-wrapper">
+  <div class="upload-card two-columns">
+    <form method="POST" enctype="multipart/form-data" class="perfil-form">
+      {{ form.hidden_tag() }}
+      <div class="upload-section">
+        <div class="drop-area" id="drop-area">
+          <p>Arraste e solte a imagem aqui<br>ou clique para escolher</p>
+          <label for="file-upload" class="custom-file-upload">📁 Escolher arquivo</label>
+          {{ form.foto(id="file-upload", class="hidden-input") }}
+        </div>
+      </div>
 
-<form method="POST" enctype="multipart/form-data">
-
-{{ form.csrf_token }}
-
-{{ form.foto  }}
-{{ form.botao_enviar }}
-{{ form.tag  }}
-{{ form.nome_foto }}
-
-</form>
-{% endif %}
-
-
-
-{% for foto in usuario.fotos %}
-<div>
-    <img src="{{ url_for('static', filename='post/' + foto.imagem) }}" alt="Foto do usuário">
-    <div><h3>{{ foto.nome_foto }}</h3></div>
-
-    <a href="{{ url_for('Download_de_Arquivos', filename=foto.imagem) }}" download>
-        <button>
-            ⬇️ Baixar
-        </button>
-    </a>
-    
-{% if current_user.id == foto.id_usuario %}
-
-    <a href="{{ url_for('excluir_arquivos', id_usuario=foto.id_usuario, filename=foto.imagem) }}">
-        <button>
-            ❌ Excluir
-        </button>
-    </a>
-{% endif %}
-
-<a href="{{ url_for('denuncia_foto', filename=foto.imagem) }}">
-    <button>🚫 Denunciar</button>
-</a>
+      <div class="input-section">
+        <div class="form-group">
+          {{ form.nome_foto.label(class="form-label") }}
+          {{ form.nome_foto(class="form-input") }}
+        </div>
+        <div class="form-group">
+          {{ form.tag.label(class="form-label") }}
+          {{ form.tag(class="form-input") }}
+        </div>
+        <button type="submit" class="btn-submit">Enviar</button>
+      </div>
+    </form>
+  </div>
 </div>
-{% endfor %}
+{% endif %}
 
+<div class="fotos-galeria">
+  {% for foto in usuario.fotos %}
+  <div class="foto-container">
+    <a href="{{ url_for('static', filename='post/' + foto.imagem) }}" target="_blank">
+      <img 
+        class="foto-imagem" 
+        src="{{ url_for('static', filename='post/' + foto.imagem) }}" 
+        alt="{{ foto.nome_foto }}">
+    </a>
+    <p class="foto-nome">{{ foto.nome_foto }}</p>
+    
+    <div class="foto-acoes">
+      <a href="{{ url_for('Download_de_Arquivos', filename=foto.imagem) }}" download>
+        <button class="btn btn-download">⬇️ Baixar</button>
+      </a>
+      <a href="{{ url_for('denuncia_foto', filename=foto.imagem) }}">
+        <button class="btn btn-denunciar">🚫 Denunciar</button>
+      </a>
+      {% if current_user.id == foto.id_usuario %}
+      <a href="{{ url_for('excluir_arquivos', id_usuario=foto.id_usuario, filename=foto.imagem) }}">
+        <button class="btn btn-delete">❌ Excluir</button>
+      </a>
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
 
-{% include 'routes_nav.html' %}
+<script>
+  const dropArea = document.getElementById('drop-area');
+  const fileInput = document.getElementById('file-upload');
 
+  const applyPreview = (file) => {
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        dropArea.classList.add('preview');
+        dropArea.style.setProperty('--preview-image', `url('${e.target.result}')`);
+      }
+      reader.readAsDataURL(file);
+    } else {
+      dropArea.classList.remove('preview');
+      dropArea.style.removeProperty('--preview-image');
+    }
+  };
+
+  // Eventos para prevenir comportamento padrão
+  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+    dropArea.addEventListener(eventName, e => {
+      e.preventDefault();
+      e.stopPropagation();
+    });
+  });
+
+  // Quando arquivo é solto
+  dropArea.addEventListener('drop', e => {
+    const file = e.dataTransfer.files[0];
+    fileInput.files = e.dataTransfer.files;
+    applyPreview(file);
+  });
+
+  // Quando arquivo é selecionado pelo input
+  fileInput.addEventListener('change', e => {
+    const file = e.target.files[0];
+    applyPreview(file);
+  });
+
+  // Ao clicar na área de drop, ativa input
+  dropArea.addEventListener('click', () => {
+    fileInput.click();
+  });
+</script>
+
+{% include "routes_nav.html" %}
 
 {% endblock %}

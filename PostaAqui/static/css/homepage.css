@@ -1,0 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+/* RESET */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    background-image: url('/static/imagens_site/fundo_site.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    margin: 0;
+    padding: 0;
+}
+
+/* BARRA AZUL */
+.titulo-com-mascote {
+    background-color: #007BFF;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 0; 
+    position: relative;
+}
+
+.main-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+}
+
+.mascote-principal {
+    height: 40px; 
+    margin-right: 8px;
+    margin-top: -20px;
+    transform: scale(1.8);
+}
+
+/* NAV BAR */
+.nav-bar-topo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.nav-left, .nav-right {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* ÁREA CINZA */
+.area-cinza {
+    background-color: #ccc;
+    max-width: 500px;
+    margin: 60px auto;
+    padding: 30px 20px 120px;
+    border-radius: 10px;
+    position: relative;
+    text-align: center;
+}
+
+/* FORMULÁRIO */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.form-group {
+    width: 80%;
+    margin-bottom: 15px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #999;
+    border-radius: 4px;
+}
+
+.btn-login {
+    width: 60%;  /* menor largura */
+    padding: 10px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px; /* espaço entre o botão e os elementos abaixo */
+}
+
+/* CONVITE (CRIAR CONTA) */
+.convite-area {
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+.convite-texto {
+    font-size: 16px;
+    margin-bottom: 10px; /* espaço abaixo do texto */
+}
+
+.cta-convite {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* distância entre mascote e botão */
+    margin-top: 40px; /* espaço acima dessa linha */
+}
+
+.mascote-secundario {
+    height: 42px;
+    margin-top: -25px;
+    transform: scale(1.5);
+}
+
+.cta-button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+
+}
+
+.btn-criar-conta {
+    background-color: #007BFF;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* RODAPÉ */
+.footer {
+    background-color: #f0f0f0;
+    padding: 10px;
+    font-size: 13px;
+    text-align: center;
+}
+
+.footer-text {
+    font-weight: bold;
+    margin-bottom: 15px;
+
+}
+
+.footer-links {
+    display: flex;
+    justify-content: space-between;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.footer-link {
+    text-decoration: none;
+    color: #007BFF;
+    font-weight: bold;
+}
