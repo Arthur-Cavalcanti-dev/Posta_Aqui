@@ -4,6 +4,12 @@
 Erro 404 - Página não encontrada
 {% endblock %}
 
+{% block head %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/error404.css') }}">
+
+{% endblock %}
+
 {% block body %}
 <div class="titulo-com-mascote">
   <img 
@@ -14,28 +20,32 @@ Erro 404 - Página não encontrada
   <h1 class="main-title">Posta Aqui</h1>
 </div>
 
+{% include "nav.html" %}
 
-<img 
-  class="erro-imagem" 
-  src="{{ url_for('static', filename='imagens_site/Life_1.png') }}" 
-  alt="Erro 404"
->
+<div class="erro-container">
+  <img 
+    class="erro-imagem" 
+    src="{{ url_for('static', filename='imagens_site/Life_1.png') }}" 
+    alt="Erro 404"
+  >
 
-<h1 class="erro-titulo">🚧 404 - Caminho sem saída!</h1>
+  <h1 class="erro-titulo">🚧 404 - Caminho sem saída!</h1>
 
-<p class="erro-descricao">
-  Você tentou abrir uma página que ainda está em construção… ou talvez nem esteja nos planos. 🤔
-</p>
+  <p class="erro-descricao">
+    Você tentou abrir uma página que ainda está em construção… ou talvez nem esteja nos planos. 🤔
+  </p>
 
-<a class="botao-voltar" href="{{ url_for('homepage') }}">
-  Voltar para um lugar seguro
-</a>
+  <a class="botao-voltar" href="{{ url_for('homepage') }}">
+    Voltar para um lugar seguro
+  </a>
 
-<p class="erro-suporte">
-  Caso o erro persista, vá para 
-  <a class="link-suporte" href="{{ url_for('Sobre_nos') }}">página de suporte</a> 
-  e entre em contato com a nossa equipe de apoio.
-</p>
+  <p class="erro-suporte">
+    Caso o erro persista, vá para 
+    <a class="link-suporte" href="{{ url_for('Sobre_nos') }}">página de suporte</a> 
+    e entre em contato com a nossa equipe de apoio.
+  </p>
+</div>
+
 
 {% include "routes_nav.html" %}
 

@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, FileField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from flask_wtf.file import FileField, FileAllowed
 from PostaAqui.models import Usuario
 
 class formlogin(FlaskForm):
@@ -28,7 +29,7 @@ def validador_tag (form, field):
             raise ValidationError ("Todas as tags devem começar com #")
         
 class formfoto(FlaskForm):
-    foto = FileField("foto", validators=[DataRequired()])
+    foto = FileField("foto", validators=[DataRequired(), FileAllowed(['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'tiff', 'heic', 'heif'],) ])
     botao_enviar = SubmitField("Enviar")
     nome_foto = StringField("Nome da foto", validators=[ DataRequired(), Length(min=2, max=100)],
                       render_kw={"placeholder": "Título..."})

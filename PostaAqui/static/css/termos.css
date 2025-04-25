@@ -1,0 +1,65 @@
+body {
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #0d0d0d; /* preto absoluto */
+  color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+}
+
+.terms-title {
+  text-align: center;
+  font-size: 2.4rem;
+  color: #ffffff;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.terms-section {
+  background-color: #1a1a1a; /* caixa escura com contraste sutil */
+  max-width: 90%;
+  margin: 30px auto;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.terms-subtitle {
+  font-size: 1.7rem;
+  color: #66b2ff; /* azul suave */
+  margin-bottom: 16px;
+}
+
+.terms-text {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: #e0e0e0;
+}
+
+.terms-text strong {
+  color: #ffffff;
+}
+
+.titulo-com-mascote h1 {
+  color: #ffffff;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .terms-section {
+    margin: 15px;
+    padding: 25px;
+  }
+
+  .terms-title {
+    font-size: 2rem;
+  }
+
+  .terms-subtitle {
+    font-size: 1.4rem;
+  }
+
+  .terms-text {
+    font-size: 1.05rem;
+  }
+}

@@ -3,10 +3,9 @@ from flask import render_template, url_for, redirect, session, send_from_directo
 from PostaAqui import app, bcrypt, db, mail
 from PostaAqui.models import Usuario, Foto, Denuncia
 from flask_login import login_required, login_user, logout_user, current_user
-import os
 from werkzeug.utils import secure_filename
 from rapidfuzz import fuzz
-import random
+import random, os, requests
 from flask_mail import Message
 from itsdangerous import URLSafeTimedSerializer
 

@@ -1,5 +1,10 @@
 {% extends "homepage.html" %}
 
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/verificacaodeemail.css') }}">
+
+{% endblock %}
+
 {% block body %}
 
 <div class="titulo-com-mascote">
@@ -11,20 +16,24 @@
   <h1 class="main-title">Posta Aqui</h1>
 </div>
 
+{% include "nav.html" %}
 
-<img 
-  class="email-confirmation-image" 
-  src="{{ url_for('static', filename='imagens_site/Life_2.png') }}" 
-  alt="Imagem de confirmação de e-mail"
->
+<div class="container">
+  <div class="confirmation-container">
+    <img 
+      class="confirmation-image" 
+      src="{{ url_for('static', filename='imagens_site/Life_2.png') }}" 
+      alt="Imagem de confirmação de e-mail"
+    >
 
-<h1 class="confirmation-title">Olhe seu email para confirmarmos sua conta</h1>
+    <h1 class="confirmation-title">Olhe seu email para confirmarmos sua conta!</h1>
 
-<p class="confirmation-text">
-    <strong class="confirmation-warning">Não encontrou nosso e-mail?</strong><br>
-    Se o link de confirmação não estiver em sua caixa de entrada, recomendamos verificar a pasta de spam, lixo eletrônico ou promoções. 
-    Às vezes, e-mails automáticos podem ser redirecionados por engano.
-</p>
+    <p class="confirmation-text">
+      <strong class="confirmation-warning">Não encontrou nosso e-mail?</strong><br>
+      Verifique também sua caixa de spam, lixo eletrônico ou promoções. Às vezes nossos emails vão parar lá sem querer.
+    </p>
+  </div>
+</div>
 
 {% include "routes_nav.html" %}
 

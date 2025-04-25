@@ -1,0 +1,66 @@
+body {
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #0d0d0d;
+    color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .privacy-policy-title {
+    text-align: center;
+    font-size: 2.4rem;
+    color: #ffffff;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    font-weight: 700;
+  }
+  
+  .privacy-section {
+    background-color: #1a1a1a;
+    max-width: 90%;
+    margin: 30px auto;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  }
+  
+  .privacy-subtitle {
+    font-size: 1.7rem;
+    color: #66b2ff;
+    margin-bottom: 16px;
+  }
+  
+  .privacy-text {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #e0e0e0;
+  }
+  
+  .privacy-text strong {
+    color: #ffffff;
+  }
+  
+  .titulo-com-mascote h1 {
+    color: #ffffff;
+  }
+  
+  /* Responsivo */
+  @media (max-width: 768px) {
+    .privacy-section {
+      margin: 15px;
+      padding: 25px;
+    }
+  
+    .privacy-policy-title {
+      font-size: 2rem;
+    }
+  
+    .privacy-subtitle {
+      font-size: 1.4rem;
+    }
+  
+    .privacy-text {
+      font-size: 1.05rem;
+    }
+  }
+  

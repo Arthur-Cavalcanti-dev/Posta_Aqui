@@ -1,0 +1,54 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to bottom, #f0f0f0, #dfe3e6);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .container {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+  }
+  
+  .confirmation-container {
+    background-color: #f9f9f9;
+    padding: 40px 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    text-align: center;
+
+  }
+  
+  .confirmation-image {
+    max-width: 200px;
+    height: auto;
+    margin-bottom: 25px;
+    transform: scale(1.5);
+    position: relative;
+    top: -20px;
+  }
+  
+  .confirmation-title {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .confirmation-text {
+    color: #555;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  
+  .confirmation-warning {
+    color: #d9534f;
+    font-weight: bold;
+  }
+  

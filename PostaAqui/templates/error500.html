@@ -4,6 +4,12 @@
 Erro 500 - Internal Server Error
 {% endblock %}
 
+{% block head %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/error500.css') }}">
+
+{% endblock %}
+
 {% block body %}
 
 <div class="titulo-com-mascote">
@@ -15,6 +21,7 @@ Erro 500 - Internal Server Error
   <h1 class="main-title">Posta Aqui</h1>
 </div>
 
+{% include "nav.html" %}
 
 <img 
   class="erro-imagem" 

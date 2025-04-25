@@ -4,6 +4,11 @@
 Posta Aqui - Termos de Uso
 {% endblock %}
 
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/termos.css') }}">
+{% endblock %}
+
+
 {% block body %}
 
 <div class="titulo-com-mascote">
@@ -15,6 +20,7 @@ Posta Aqui - Termos de Uso
     <h1 class="main-title">Posta Aqui</h1>
 </div>
 
+{% include "nav.html" %}
 
 <h1 class="terms-title">Termos de Uso – Poste Aqui</h1>
 

@@ -4,6 +4,10 @@
 Poste Aqui - Sobre nós
 {% endblock %}
 
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/Sobre_nos.css') }}">
+{% endblock %}
+
 {% block body %}
 
 <div class="titulo-com-mascote">
@@ -15,6 +19,7 @@ Poste Aqui - Sobre nós
     <h1 class="main-title">Posta Aqui</h1>
 </div>
 
+{% include "nav.html" %}
 
 <h1 class="about-title">Sobre nós</h1>
 
