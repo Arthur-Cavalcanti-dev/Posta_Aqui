@@ -1,11 +1,11 @@
 from PostaAqui.forms import formconta, formlogin, formfoto, formpesquisa
-from flask import render_template, url_for, redirect, session, send_from_directory, flash, request
+from flask import render_template, url_for, redirect, session, send_from_directory, request, jsonify, current_app
 from PostaAqui import app, bcrypt, db, mail
 from PostaAqui.models import Usuario, Foto, Denuncia
 from flask_login import login_required, login_user, logout_user, current_user
 from werkzeug.utils import secure_filename
 from rapidfuzz import fuzz
-import random, os, requests
+import random, os
 from flask_mail import Message
 from itsdangerous import URLSafeTimedSerializer
 
@@ -88,38 +88,42 @@ def confirmar_email(token):
     return redirect(url_for("perfil", id_usuario=novo_usuario.id))
 
 
-@app.route("/perfil/<id_usuario>", methods = ["POST", "GET"])  
+@app.route("/perfil/<id_usuario>", methods=["POST", "GET"])
 @login_required
 def perfil(id_usuario):
-    if int(id_usuario) == int(current_user.id):
+    usuario = Usuario.query.get(int(id_usuario))
+    Formfoto = formfoto()
 
-        # O usuario ta no seu perfil
-        Formfoto = formfoto ()
+    # Pegamos a página atual (padrão = 1)
+    page = request.args.get('page', 1, type=int)
+    fotos_paginadas = Foto.query.filter_by(id_usuario=usuario.id).order_by(Foto.id.desc()).paginate(page=page, per_page=12)
+
+    if int(id_usuario) == int(current_user.id):
+        # O usuário está no próprio perfil
         if Formfoto.validate_on_submit():
             arquivo = Formfoto.foto.data
             if arquivo:
                 nomeseguro = secure_filename(arquivo.filename)
 
                 # Salvar o arquivo na pasta
-                caminho = os.path.join(os.path.abspath(os.path.dirname(__file__)), 
+                caminho = os.path.join(os.path.abspath(os.path.dirname(__file__)),
                                        app.config["UPLOAD_FOLDER"], nomeseguro)
                 arquivo.save(caminho)
-                
+
                 tag = Formfoto.tag.data.strip()
                 nomefoto = Formfoto.nome_foto.data.strip()
-                # Salvar o arquivo no bd
 
-                foto = Foto(imagem=nomeseguro, id_usuario=current_user.id, tags = tag, nome_foto = nomefoto)
+                foto = Foto(imagem=nomeseguro, id_usuario=current_user.id, tags=tag, nome_foto=nomefoto)
                 db.session.add(foto)
                 db.session.commit()
+
                 return redirect(url_for("perfil", id_usuario=current_user.id))
 
-        return render_template("perfilpage.html", usuario=current_user, form=Formfoto)
-    
+        return render_template("perfilpage.html", usuario=current_user, form=Formfoto, fotos_paginadas=fotos_paginadas)
+
     else:
-        # O usuario está em outra conta
-        usuario = Usuario.query.get(int(id_usuario))
-        return render_template("perfilpage.html", usuario = usuario, form = None)
+        # O usuário está no perfil de outra pessoa
+        return render_template("perfilpage.html", usuario=usuario, form=None, fotos_paginadas=fotos_paginadas)
 
 @app.route("/logout")
 @login_required
@@ -127,36 +131,89 @@ def logout():
     logout_user()
     return redirect(url_for("homepage"))
 
-@app.route ("/feed", methods=["GET", "POST"])
-def feed ():
-    Formpesquisa = formpesquisa()
-    fotos = Foto.query.order_by(Foto.data_criacao.desc()).all()[:200]
-    todas_as_fotos = Foto.query.all()
-    Buscar = ""
-    resultado = []
+from itertools import chain
 
-    # sistema da barra de pesquisa
+@app.route("/feed", methods=["GET", "POST"])
+def feed():
+    Formpesquisa = formpesquisa()
+    page = request.args.get('page', 1, type=int)
+    per_page = 12
+
+    # Pega até 200 fotos aleatórias a cada acesso
+    todas_fotos = Foto.query.all()
+    fotos_selecionadas = random.sample(todas_fotos, min(200, len(todas_fotos)))
+    todas_fotos_lista = fotos_selecionadas  # já são aleatórias
+
+    # Se enviar pesquisa
     if Formpesquisa.validate_on_submit():
         busca = Formpesquisa.Barra_de_pesquisa.data.lower()
-        for foto in fotos:
+        resultados_relevantes = []
+        resultados_ids = set()
+
+        for foto in todas_fotos_lista:
             otimizacao_tag = [tag[1:].lower() for tag in foto.tags.split() if tag.startswith("#")]
             for tag in otimizacao_tag:
                 if fuzz.partial_ratio(busca, tag) > 70:
-                    resultado.append(foto)
+                    resultados_relevantes.append(foto)
+                    resultados_ids.add(foto.id)
                     break
-        fotos = resultado
 
-        # Fotos aleátorias a baixo das que foram pesquisadas
-        if len(fotos) < 10:
-            fotos_ids = [f.id for f in fotos]
-            outras_fotos = [f for f in todas_as_fotos if f.id not in fotos_ids]
-            fotos_aleatorias = random.sample(outras_fotos, min(10 - len(fotos), len(outras_fotos)))
-            fotos.extend(fotos_aleatorias)
-        else:
-            fotos = todas_as_fotos
+        # Preencher com fotos aleatórias não relacionadas
+        restantes = [f for f in todas_fotos_lista if f.id not in resultados_ids]
+        random.shuffle(restantes)
 
+        fotos_ordenadas = resultados_relevantes + restantes
+        fotos_final = fotos_ordenadas
 
-    return render_template ("feed.html", fotos = fotos, Formpesquisa = Formpesquisa)
+    else:
+        fotos_final = todas_fotos_lista  # exibir aleatórias diretamente
+
+    # Paginação manual
+    total = len(fotos_final)
+    start = (page - 1) * per_page
+    end = start + per_page
+    fotos_paginadas = fotos_final[start:end]
+
+    class FakePagination:
+        def __init__(self, items, page, per_page, total):
+            self.items = items
+            self.page = page
+            self.per_page = per_page
+            self.total = total
+            self.pages = (total + per_page - 1) // per_page
+
+        def iter_pages(self, left_edge=2, left_current=2, right_current=5, right_edge=2):
+            last = 0
+            for num in range(1, self.pages + 1):
+                if (
+                    num <= left_edge
+                    or (num >= self.page - left_current and num <= self.page + right_current)
+                    or num > self.pages - right_edge
+                ):
+                    if last + 1 != num:
+                        yield None
+                    yield num
+                    last = num
+
+        @property
+        def has_prev(self):
+            return self.page > 1
+
+        @property
+        def has_next(self):
+            return self.page < self.pages
+
+        @property
+        def prev_num(self):
+            return self.page - 1
+
+        @property
+        def next_num(self):
+            return self.page + 1
+
+    pagination = FakePagination(fotos_paginadas, page, per_page, total)
+
+    return render_template("feed.html", fotos_paginadas=pagination, Formpesquisa=Formpesquisa)
 
 @app.route("/Download/<filename>")
 def Download_de_Arquivos (filename):
@@ -186,7 +243,6 @@ def denuncia_foto(filename):
     if total_denuncias > 2:
         db.session.delete(foto)
         db.session.commit()
-        flash("Denúncia registrada com sucesso.", "info")
     
     return redirect(request.referrer)
 

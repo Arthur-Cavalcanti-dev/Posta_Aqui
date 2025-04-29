@@ -6,16 +6,6 @@ Posta Aqui - Descubra e Compartilhe
 
 {% block body %}
 
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    {% for category, message in messages %}
-      <div class="alert alert-{{ category }} mt-3 flash-message" role="alert">
-        {{ message }}
-      </div>
-    {% endfor %}
-  {% endif %}
-{% endwith %}
-
 <link rel="stylesheet" href="{{ url_for('static', filename='css/feed.css') }}">
 
 <div class="titulo-com-mascote">
@@ -40,9 +30,8 @@ Posta Aqui - Descubra e Compartilhe
   </div>
 </div>
 
-
-<div class="fotos-galeria">
-  {% for foto in fotos %}
+<div class="fotos-galeria" id="galeria-feed">
+  {% for foto in fotos_paginadas.items %}
     <div class="foto-container">
       <div class="foto-acoes">
         <a href="{{ url_for('Download_de_Arquivos', filename=foto.imagem) }}">
@@ -65,6 +54,47 @@ Posta Aqui - Descubra e Compartilhe
   {% endfor %}
 </div>
 
-{% include "routes_nav.html" %}
+<div class="paginacao-container">
+  {% if fotos_paginadas.pages > 1 %}
+    <nav aria-label="Page navigation">
+      <ul class="pagination">
+          
+          {# Botão Anterior #}
+          {% if fotos_paginadas.has_prev %}
+            <li class="page-item">
+              <a class="page-link" href="{{ url_for('feed', page=fotos_paginadas.prev_num) }}">‹ Anterior</a>
+            </li>
+          {% endif %}
 
+          {# Números das páginas #}
+          {% for page_num in fotos_paginadas.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+            {% if page_num %}
+              {% if page_num == fotos_paginadas.page %}
+                <li class="page-item active">
+                  <a class="page-link" href="{{ url_for('feed', page=page_num) }}">{{ page_num }}</a>
+                </li>
+              {% else %}
+                <li class="page-item">
+                  <a class="page-link" href="{{ url_for('feed', page=page_num) }}">{{ page_num }}</a>
+                </li>
+              {% endif %}
+            {% else %}
+              <li class="page-item disabled"><span class="page-link">…</span></li>
+            {% endif %}
+          {% endfor %}
+
+          {# Botão Próxima #}
+          {% if fotos_paginadas.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="{{ url_for('feed', page=fotos_paginadas.next_num) }}">Próxima ›</a>
+            </li>
+          {% endif %}
+
+      </ul>
+    </nav>
+  {% endif %}
+</div>
+
+
+{% include "routes_nav.html" %}
 {% endblock %}

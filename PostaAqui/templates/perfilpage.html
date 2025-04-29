@@ -12,16 +12,6 @@ PostaAqui - {{ usuario.name }}
 
 {% block body %}
 
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    {% for category, message in messages %}
-      <div class="alert alert-{{ category }} mt-3 flash-message" role="alert">
-        {{ message }}
-      </div>
-    {% endfor %}
-  {% endif %}
-{% endwith %}
-
 <link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}">
 
 <div class="titulo-com-mascote">
@@ -65,8 +55,8 @@ PostaAqui - {{ usuario.name }}
 </div>
 {% endif %}
 
-<div id="galeria" class="fotos-galeria hidden-on-mobile">
-  {% for foto in usuario.fotos %}
+<div id="galeria" class="fotos-galeria">
+  {% for foto in fotos_paginadas %}
   <div class="foto-container">
     <a href="{{ url_for('static', filename='post/' + foto.imagem) }}" target="_blank">
       <img 
@@ -93,61 +83,119 @@ PostaAqui - {{ usuario.name }}
   {% endfor %}
 </div>
 
+<div class="paginacao-container">
+  <ul class="pagination">
+    {% if fotos_paginadas.has_prev %}
+      <li class="page-item">
+        <a class="page-link" href="{{ url_for('perfil', id_usuario=usuario.id, page=fotos_paginadas.prev_num) }}">« Anterior</a>
+      </li>
+    {% endif %}
+
+    {% for page_num in fotos_paginadas.iter_pages(left_edge=2, right_edge=2, left_current=2, right_current=2) %}
+      {% if page_num %}
+        {% if page_num == fotos_paginadas.page %}
+          <li class="page-item active">
+            <span class="page-link">{{ page_num }}</span>
+          </li>
+        {% else %}
+          <li class="page-item">
+            <a class="page-link" href="{{ url_for('perfil', id_usuario=usuario.id, page=page_num) }}">{{ page_num }}</a>
+          </li>
+        {% endif %}
+      {% else %}
+        <li class="page-item">
+          <span class="page-link">...</span>
+        </li>
+      {% endif %}
+    {% endfor %}
+
+    {% if fotos_paginadas.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="{{ url_for('perfil', id_usuario=usuario.id, page=fotos_paginadas.next_num) }}">Próximo »</a>
+      </li>
+    {% endif %}
+  </ul>
+</div>
+
 <script>
-  const dropArea = document.getElementById('drop-area');
-  const fileInput = document.getElementById('file-upload');
-  const galeria = document.getElementById('galeria');
 
-  fileInput.addEventListener('change', e => {
-  const file = e.target.files[0];
-  applyPreview(file);
+const dropArea = document.getElementById('drop-area');
+const fileInput = document.getElementById('file-upload');
+const galeria = document.getElementById('galeria');
 
-    if (window.innerWidth <= 768 && file) {
+// Variável para controlar se um arquivo foi selecionado
+let isFileSelected = false;
+
+// Quando arquivo é selecionado pelo input
+fileInput.addEventListener('change', e => {
+  if (e.target.files.length > 0) {
+    const file = e.target.files[0];
+    isFileSelected = true;
+    applyPreview(file);
+
+    // Garante que a galeria será visível quando a imagem for carregada
     galeria.classList.remove('hidden-on-mobile');
     galeria.classList.add('show-on-mobile');
-    }
+  }
+});
+
+// Funções de drag and drop
+['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+  dropArea.addEventListener(eventName, e => {
+    e.preventDefault();
+    e.stopPropagation();
   });
+});
 
-
-  const applyPreview = (file) => {
-    if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        dropArea.classList.add('preview');
-        dropArea.style.setProperty('--preview-image', `url('${e.target.result}')`);
-      }
-      reader.readAsDataURL(file);
-    } else {
-      dropArea.classList.remove('preview');
-      dropArea.style.removeProperty('--preview-image');
-    }
-  };
-
-  // Eventos para prevenir comportamento padrão
-  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-    dropArea.addEventListener(eventName, e => {
-      e.preventDefault();
-      e.stopPropagation();
-    });
+['dragenter', 'dragover'].forEach(eventName => {
+  dropArea.addEventListener(eventName, () => {
+    dropArea.classList.add('dragover');
   });
+});
 
-  // Quando arquivo é solto
-  dropArea.addEventListener('drop', e => {
-    const file = e.dataTransfer.files[0];
+['dragleave', 'drop'].forEach(eventName => {
+  dropArea.addEventListener(eventName, () => {
+    dropArea.classList.remove('dragover');
+  });
+});
+
+// Quando arquivo é solto
+dropArea.addEventListener('drop', e => {
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) {
+    isFileSelected = true;
     fileInput.files = e.dataTransfer.files;
     applyPreview(file);
-  });
+  }
+});
 
-  // Quando arquivo é selecionado pelo input
-  fileInput.addEventListener('change', e => {
-    const file = e.target.files[0];
-    applyPreview(file);
-  });
+// Função para aplicar a pré-visualização como fundo
+const applyPreview = (file) => {
+  if (file && file.type.startsWith('image/')) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      dropArea.style.backgroundImage = `url('${e.target.result}')`;
+      dropArea.style.backgroundSize = 'cover';
+      dropArea.style.backgroundPosition = 'center';
+      dropArea.style.backgroundRepeat = 'no-repeat';
+      dropArea.style.backgroundColor = 'transparent'; // Remove a cor de fundo azul
+      dropArea.querySelector('p').style.color = 'white'; // Muda a cor do texto para melhor contraste
+      dropArea.querySelector('.custom-file-upload').style.backgroundColor = 'rgba(0,0,0,0.5)'; // Faz o botão ficar semi-transparente
+    }
+    reader.readAsDataURL(file);
+  }
+};
 
-  // Ao clicar na área de drop, ativa input
-  dropArea.addEventListener('click', () => {
-    fileInput.click();
-  });
+// Resetar o preview se o usuário remover o arquivo
+fileInput.addEventListener('click', () => {
+  fileInput.value = ""; // força reset do input
+  dropArea.style.backgroundImage = 'none';
+  dropArea.style.backgroundColor = '#e0f7fa';
+  dropArea.querySelector('p').style.color = '#006064';
+  dropArea.querySelector('.custom-file-upload').style.backgroundColor = 'white';
+  isFileSelected = false;
+});
+
 </script>
 
 {% include "routes_nav.html" %}
