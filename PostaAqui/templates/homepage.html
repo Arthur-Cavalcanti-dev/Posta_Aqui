@@ -1,73 +1,79 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-{% block head %}
+    {% block head %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-    {% block titulo %}
-    PostaAqui 
-    {% endblock %}
+        {% block titulo %}
+        PostaAqui
+        {% endblock %}
     </title>
 
     <link rel="icon" href="{{ url_for('static', filename='imagens_site/icon.png') }}" type="image/png">
-
-
     <link rel="stylesheet" href="{{ url_for('static', filename='css/homepage.css') }}">
-
-{% endblock %}
+    {% endblock %}
 </head>
-<body>
-{% block body %}
 
+<body>
+    {% block body %}
+
+    <!-- Título com Mascote -->
 <div class="titulo-com-mascote">
-    <img 
-      class="mascote-principal" 
-      src="{{ url_for('static', filename='imagens_site/Life_5.png') }}" 
-      alt="Mascote principal"
-    >
-    <h1 class="main-title">Posta Aqui</h1>
+        <img 
+            class="mascote-principal" 
+            src="{{ url_for('static', filename='imagens_site/Life_5.png') }}" 
+            alt="Mascote principal"
+        >
+        <h1 class="main-title">Posta Aqui</h1>
     {% include 'nav.html' %}
 </div>
 
-<div class="area-cinza">
-    {% block formulario %}
-    <form class="login-form" method="post">
-        {{ form.csrf_token }}
+    <!-- Área Cinza e Formulário -->
+    <div class="area-cinza">
+        {% block formulario %}
+        <form class="login-form" method="post">
+            {{ form.csrf_token }}
 
-        <div class="form-group">
-            {{ form.email.label(class="form-label") }}
-            {{ form.email(class="form-input") }}
-        </div>
+            <!-- Campo de Email -->
+            <div class="form-group">
+                {{ form.email.label(class="form-label") }}
+                {{ form.email(class="form-input") }}
+            </div>
 
-        <div class="form-group">
-            {{ form.senha.label(class="form-label") }}
-            {{ form.senha(class="form-input") }}
-        </div>
+            <!-- Campo de Senha -->
+            <div class="form-group">
+                {{ form.senha.label(class="form-label") }}
+                {{ form.senha(class="form-input") }}
+            </div>
 
-        <div class="form-group">
-            {{ form.login_botao(class="btn btn-login") }}
-        </div>
-    </form>
-    {% endblock %}
+            <!-- Botão de Login -->
+            <div class="form-botao">
+                {{ form.login_botao(class="btn btn-login") }}
+            </div>            
+        </form>
+        {% endblock %}
 
-    <div class="convite-area">
-        <p class="convite-texto">Ainda não tem conta ainda?</p>
-        <div class="cta-convite">
-            <img 
-                class="mascote-secundario" 
-                src="{{ url_for('static', filename='imagens_site/Life_4.png') }}" 
-                alt="Mascote secundário"
-            >
-            <a href="{{ url_for('conta') }}">
-                <button class="btn-criar-conta">Criar conta</button>
-            </a>
+        <!-- Convite para Criar Conta -->
+        <div class="convite-area">
+            <p class="convite-texto">Ainda não tem conta?</p>
+            <div class="cta-convite">
+                <img 
+                    class="mascote-secundario" 
+                    src="{{ url_for('static', filename='imagens_site/Life_4.png') }}" 
+                    alt="Mascote secundário"
+                >
+                <a href="{{ url_for('conta') }}">
+                    <button class="btn-criar-conta">Criar conta</button>
+                </a>
+            </div>
         </div>
     </div>
-</div>
 
-{% include "routes_nav.html" %}
+    {% include "routes_nav.html" %}
 
-{% endblock %}
+    {% endblock %}
 </body>
+
 </html>

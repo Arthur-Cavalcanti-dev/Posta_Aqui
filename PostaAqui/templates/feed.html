@@ -6,8 +6,10 @@ Posta Aqui - Descubra e Compartilhe
 
 {% block body %}
 
+<!-- Estilos do Feed -->
 <link rel="stylesheet" href="{{ url_for('static', filename='css/feed.css') }}">
 
+<!-- Título e Mascote -->
 <div class="titulo-com-mascote">
   <img 
     class="mascote-principal" 
@@ -19,6 +21,7 @@ Posta Aqui - Descubra e Compartilhe
 
 {% include "nav.html" %}
 
+<!-- Feed Topo e Barra de Pesquisa -->
 <div class="feed-topo">
   <h2 class="feed-titulo">Feed</h2>
   <div class="pesquisa-container">
@@ -30,9 +33,11 @@ Posta Aqui - Descubra e Compartilhe
   </div>
 </div>
 
+<!-- Galeria de Fotos -->
 <div class="fotos-galeria" id="galeria-feed">
   {% for foto in fotos_paginadas.items %}
     <div class="foto-container">
+      <!-- Ações da Foto -->
       <div class="foto-acoes">
         <a href="{{ url_for('Download_de_Arquivos', filename=foto.imagem) }}">
           <button class="btn btn-download">⬇️ Baixar</button>
@@ -42,6 +47,7 @@ Posta Aqui - Descubra e Compartilhe
         </a>
       </div>
 
+      <!-- Imagem da Foto -->
       <a href="{{ url_for('perfil', id_usuario=foto.id_usuario) }}">
         <img 
           class="foto-imagem" 
@@ -49,52 +55,53 @@ Posta Aqui - Descubra e Compartilhe
           alt="Foto do usuário">
       </a>
 
+      <!-- Nome da Foto -->
       <h3 class="foto-nome">{{ foto.nome_foto }}</h3>
     </div>
   {% endfor %}
 </div>
 
+<!-- Paginação -->
 <div class="paginacao-container">
   {% if fotos_paginadas.pages > 1 %}
     <nav aria-label="Page navigation">
       <ul class="pagination">
-          
-          {# Botão Anterior #}
-          {% if fotos_paginadas.has_prev %}
-            <li class="page-item">
-              <a class="page-link" href="{{ url_for('feed', page=fotos_paginadas.prev_num) }}">‹ Anterior</a>
-            </li>
-          {% endif %}
 
-          {# Números das páginas #}
-          {% for page_num in fotos_paginadas.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-            {% if page_num %}
-              {% if page_num == fotos_paginadas.page %}
-                <li class="page-item active">
-                  <a class="page-link" href="{{ url_for('feed', page=page_num) }}">{{ page_num }}</a>
-                </li>
-              {% else %}
-                <li class="page-item">
-                  <a class="page-link" href="{{ url_for('feed', page=page_num) }}">{{ page_num }}</a>
-                </li>
-              {% endif %}
+        <!-- Botão Anterior -->
+        {% if fotos_paginadas.has_prev %}
+          <li class="page-item">
+            <a class="page-link" href="{{ url_for('feed', page=fotos_paginadas.prev_num) }}">‹ Anterior</a>
+          </li>
+        {% endif %}
+
+        <!-- Números das Páginas -->
+        {% for page_num in fotos_paginadas.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+          {% if page_num %}
+            {% if page_num == fotos_paginadas.page %}
+              <li class="page-item active">
+                <a class="page-link" href="{{ url_for('feed', page=page_num) }}">{{ page_num }}</a>
+              </li>
             {% else %}
-              <li class="page-item disabled"><span class="page-link">…</span></li>
+              <li class="page-item">
+                <a class="page-link" href="{{ url_for('feed', page=page_num) }}">{{ page_num }}</a>
+              </li>
             {% endif %}
-          {% endfor %}
-
-          {# Botão Próxima #}
-          {% if fotos_paginadas.has_next %}
-            <li class="page-item">
-              <a class="page-link" href="{{ url_for('feed', page=fotos_paginadas.next_num) }}">Próxima ›</a>
-            </li>
+          {% else %}
+            <li class="page-item disabled"><span class="page-link">…</span></li>
           {% endif %}
+        {% endfor %}
+
+        <!-- Botão Próxima -->
+        {% if fotos_paginadas.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="{{ url_for('feed', page=fotos_paginadas.next_num) }}">Próxima ›</a>
+          </li>
+        {% endif %}
 
       </ul>
     </nav>
   {% endif %}
 </div>
-
 
 {% include "routes_nav.html" %}
 {% endblock %}

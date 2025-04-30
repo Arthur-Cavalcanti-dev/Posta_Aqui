@@ -1,3 +1,4 @@
+#Extensões
 from PostaAqui.forms import formconta, formlogin, formfoto, formpesquisa
 from flask import render_template, url_for, redirect, session, send_from_directory, request, jsonify, current_app
 from PostaAqui import app, bcrypt, db, mail
@@ -9,6 +10,7 @@ import random, os
 from flask_mail import Message
 from itsdangerous import URLSafeTimedSerializer
 
+#homepage com sistema de login
 @app.route("/", methods=["GET", "POST"])
 def homepage():
     form_login = formlogin()
@@ -64,16 +66,17 @@ def conta():
     
     return render_template("criarconta.html", form=form)
 
-
+#Rota de confirmação de email
 @app.route("/confirmar_email/<token>")
 def confirmar_email(token):
     try:
         email = serializer.loads(token, salt="verificacao-email", max_age=1200) 
     except:
-        return "Link inválido ou expirado."
+        "Link inválido ou expirado"
 
     dados = session.get("dados_temp")
 
+    #comparar os email temp com a variavel email
     if not dados or dados["email"] != email:
         return "Erro: dados não encontrados ou e-mail não confere."
 
@@ -87,14 +90,14 @@ def confirmar_email(token):
 
     return redirect(url_for("perfil", id_usuario=novo_usuario.id))
 
-
+#perfil do usuario
 @app.route("/perfil/<id_usuario>", methods=["POST", "GET"])
 @login_required
 def perfil(id_usuario):
     usuario = Usuario.query.get(int(id_usuario))
     Formfoto = formfoto()
 
-    # Pegamos a página atual (padrão = 1)
+    # paginação (padrão = 1)
     page = request.args.get('page', 1, type=int)
     fotos_paginadas = Foto.query.filter_by(id_usuario=usuario.id).order_by(Foto.id.desc()).paginate(page=page, per_page=12)
 
@@ -131,25 +134,27 @@ def logout():
     logout_user()
     return redirect(url_for("homepage"))
 
-from itertools import chain
-
+#rota do feed
 @app.route("/feed", methods=["GET", "POST"])
 def feed():
     Formpesquisa = formpesquisa()
+
+    #paginação
     page = request.args.get('page', 1, type=int)
     per_page = 12
 
     # Pega até 200 fotos aleatórias a cada acesso
     todas_fotos = Foto.query.all()
-    fotos_selecionadas = random.sample(todas_fotos, min(200, len(todas_fotos)))
-    todas_fotos_lista = fotos_selecionadas  # já são aleatórias
+    fotos_selecionadas = random.sample(todas_fotos, min(1200, len(todas_fotos)))
+    todas_fotos_lista = fotos_selecionadas
 
-    # Se enviar pesquisa
+    # Sistema de pesquisa
     if Formpesquisa.validate_on_submit():
         busca = Formpesquisa.Barra_de_pesquisa.data.lower()
         resultados_relevantes = []
         resultados_ids = set()
 
+        # pesquisa com base na tag
         for foto in todas_fotos_lista:
             otimizacao_tag = [tag[1:].lower() for tag in foto.tags.split() if tag.startswith("#")]
             for tag in otimizacao_tag:
@@ -169,10 +174,10 @@ def feed():
         fotos_final = todas_fotos_lista  # exibir aleatórias diretamente
 
     # Paginação manual
-    total = len(fotos_final)
-    start = (page - 1) * per_page
-    end = start + per_page
-    fotos_paginadas = fotos_final[start:end]
+    total = len(fotos_final) # Total de fotos disponíveis
+    start = (page - 1) * per_page # Índice inicial da página
+    end = start + per_page # Índice final da página
+    fotos_paginadas = fotos_final[start:end] # Recorte apenas das fotos dessa página
 
     class FakePagination:
         def __init__(self, items, page, per_page, total):
@@ -180,8 +185,9 @@ def feed():
             self.page = page
             self.per_page = per_page
             self.total = total
-            self.pages = (total + per_page - 1) // per_page
+            self.pages = (total + per_page - 1) // per_page #Calcula o número total de páginas
 
+        #logica da paginação manual
         def iter_pages(self, left_edge=2, left_current=2, right_current=5, right_edge=2):
             last = 0
             for num in range(1, self.pages + 1):
@@ -215,11 +221,13 @@ def feed():
 
     return render_template("feed.html", fotos_paginadas=pagination, Formpesquisa=Formpesquisa)
 
+#sistema de download
 @app.route("/Download/<filename>")
 def Download_de_Arquivos (filename):
     caminho = os.path.join(app.root_path, "static", "post")
     return send_from_directory(caminho, filename, as_attachment=True)
 
+#sistema de excluir
 @app.route("/excluir/<int:id_usuario>/<filename>")
 def excluir_arquivos(id_usuario, filename):
     if int(id_usuario) == int(current_user.id):
@@ -229,6 +237,7 @@ def excluir_arquivos(id_usuario, filename):
             db.session.commit()
     return redirect(url_for('perfil', id_usuario=id_usuario))
 
+#sistema de denuncia
 @app.route("/denuncia/<filename>")
 @login_required
 def denuncia_foto(filename):
@@ -246,7 +255,7 @@ def denuncia_foto(filename):
     
     return redirect(request.referrer)
 
-
+#janela de erro
 @app.errorhandler(404)
 def pagina_não_encontrada(error):
     return render_template ("error404.html"), 404
@@ -255,6 +264,7 @@ def pagina_não_encontrada(error):
 def erro_no_servidor(erro):
     return render_template ("error500.html"), 500
 
+#documentação do site
 @app.route("/sobre-nos")
 def Sobre_nos():
     return render_template("sobre_nos.html")

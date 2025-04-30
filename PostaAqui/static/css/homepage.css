@@ -83,11 +83,26 @@ body {
 .form-group {
     width: 80%;
     margin-bottom: 15px;
+    margin-left: -20px;
 }
+
+.form-botao .btn-login {
+    background-color: #007BFF;
+    color: white;
+    padding: 8px 100px;  /* Usando o mesmo padding do botão de criar conta */
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+    width: 100%; /* Caso queira o botão com largura total do formulário */
+}
+
 
 .form-label {
     display: block;
     margin-bottom: 5px;
+    margin-left: 15px;
 }
 
 .form-input {
@@ -157,6 +172,7 @@ body {
     font-size: 14px;
 }
 
+
 /* RODAPÉ */
 .footer {
     background-color: #f0f0f0;
@@ -182,4 +198,24 @@ body {
     text-decoration: none;
     color: #007BFF;
     font-weight: bold;
+}
+
+@media (max-width: 600px) {
+    .main-title {
+        font-size: 24px; /* Diminui o tamanho da fonte em dispositivos móveis */
+        text-align: center; /* Centraliza o título */
+        margin-left: 0px; /* Remove qualquer margem à esquerda */
+        margin-top: 7px; /* Move o título um pouco para baixo */
+    }
+
+    .mascote-principal {
+        height: 30px; /* Ajusta a altura do mascote em telas pequenas */
+        margin-left: 65px; /* Aproxima o mascote do título */
+        margin-top: -22px; /* Move o mascote um pouco para cima */
+        transform: scale(1.5); /* Reduz o tamanho do mascote */
+    }
+
+    .titulo-com-mascote {
+        padding: 5px 0; /* Ajusta o padding para se adequar à tela menor */
+    }
 }

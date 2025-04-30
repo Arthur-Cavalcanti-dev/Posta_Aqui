@@ -29,34 +29,34 @@ Posta Aqui - Crie sua conta!
       <form method="post">
         {{ form.csrf_token }}
   
-        <div class="form-group">
+        <div>
           {{ form.username.label(class="form-label") }}
-          {{ form.username(class="form-input") }} <!-- Aqui estamos garantindo que o campo recebe a classe CSS -->
+          {{ form.username(class="form-input") }}
         </div>
   
-        <div class="form-group">
+        <div>
           {{ form.email.label(class="form-label") }}
           {{ form.email(class="form-input") }}
         </div>
   
-        <div class="form-group">
+        <div>
           {{ form.senha.label(class="form-label") }}
           {{ form.senha(class="form-input") }}
         </div>
   
-        <div class="form-group">
+        <div>
           {{ form.confirmacao_de_senha.label(class="form-label") }}
           {{ form.confirmacao_de_senha(class="form-input") }}
         </div>
   
-        <div class="form-group">
-          {{ form.conta_botao(class="btn btn-primary") }}  <!-- Botão de enviar -->
+        <div>
+          {{ form.conta_botao(class="btn btn-primary") }}
         </div>
       </form>
       {% endblock %}
     </div>
-  </div>
-   
+</div>
+
 {% include "routes_nav.html" %}
 
 {% endblock %}

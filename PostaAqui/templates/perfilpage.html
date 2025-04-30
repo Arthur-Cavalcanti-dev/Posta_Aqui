@@ -14,6 +14,7 @@ PostaAqui - {{ usuario.name }}
 
 <link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}">
 
+<!-- Título e Mascote -->
 <div class="titulo-com-mascote">
   <img 
     class="mascote-principal" 
@@ -26,6 +27,7 @@ PostaAqui - {{ usuario.name }}
 
 <h1 class="perfil-title"><p>Perfil do usuário: {{ usuario.name }}</p></h1>
 
+<!-- Formulário de Upload -->
 {% if form %}
 <div class="form-wrapper">
   <div class="upload-card two-columns">
@@ -55,6 +57,7 @@ PostaAqui - {{ usuario.name }}
 </div>
 {% endif %}
 
+<!-- Galeria de Fotos -->
 <div id="galeria" class="fotos-galeria">
   {% for foto in fotos_paginadas %}
   <div class="foto-container">
@@ -83,6 +86,7 @@ PostaAqui - {{ usuario.name }}
   {% endfor %}
 </div>
 
+<!-- Paginação -->
 <div class="paginacao-container">
   <ul class="pagination">
     {% if fotos_paginadas.has_prev %}
@@ -117,8 +121,8 @@ PostaAqui - {{ usuario.name }}
   </ul>
 </div>
 
+<!-- Script para Drag-and-Drop -->
 <script>
-
 const dropArea = document.getElementById('drop-area');
 const fileInput = document.getElementById('file-upload');
 const galeria = document.getElementById('galeria');
@@ -193,9 +197,8 @@ fileInput.addEventListener('click', () => {
   dropArea.style.backgroundColor = '#e0f7fa';
   dropArea.querySelector('p').style.color = '#006064';
   dropArea.querySelector('.custom-file-upload').style.backgroundColor = 'white';
-  isFileSelected = false;
+  isFileSelected = false;
 });
-
 </script>
 
 {% include "routes_nav.html" %}

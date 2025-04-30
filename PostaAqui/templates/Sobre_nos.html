@@ -9,13 +9,8 @@ Poste Aqui - Sobre nós
 {% endblock %}
 
 {% block body %}
-
 <div class="titulo-com-mascote">
-    <img 
-      class="mascote-principal" 
-      src="{{ url_for('static', filename='imagens_site/Life_5.png') }}" 
-      alt="Mascote principal"
-    >
+    <img class="mascote-principal" src="{{ url_for('static', filename='imagens_site/Life_5.png') }}" alt="Mascote principal">
     <h1 class="main-title">Posta Aqui</h1>
 </div>
 
@@ -23,74 +18,20 @@ Poste Aqui - Sobre nós
 
 <h1 class="about-title">Sobre nós</h1>
 
-<div class="about-section">
-    <h2 class="about-subtitle">1. Introdução</h2>
-    <p class="about-text">
-        Poste Aqui é uma plataforma criada pela Tech Imperium com o objetivo de oferecer um ambiente moderno, 
-        intuitivo e funcional para a descoberta, compartilhamento e download de imagens. 
-        Nosso compromisso é proporcionar uma experiência eficiente e agradável, 
-        atendendo às necessidades de quem busca conteúdo visual de forma organizada e acessível.
-    </p>
-</div>
-
-<div class="about-section">
-    <h2 class="about-subtitle">2. Nosso Propósito</h2>
-    <p class="about-text">
-        Nossa Propósito é facilitar o acesso e o gerenciamento de imagens por meio de uma plataforma que une tecnologia, 
-        usabilidade e desempenho. Acreditamos no poder da imagem como forma de comunicação e expressão, e por isso, 
-        criamos uma solução que atende tanto quem busca por inspiração quanto quem deseja compartilhar seu conteúdo com o mundo.
-        <br><br>
-        •   No Poste Aqui, os usuários podem:<br>
-        •   Enviar imagens de forma rápida e segura;<br>  
-        •   Utilizar tags para organizar e categorizar seu conteúdo;<br>    
-        •   Realizar buscas eficientes por temas, estilos ou palavras-chave;<br>    
-        •   Baixar imagens com comodidade e confiabilidade.<br><br>
-        Unimos praticidade com performance para atender à crescente demanda por conteúdo visual de qualidade, 
-        promovendo a liberdade criativa e o compartilhamento responsável.
-    </p>
-</div>
-
-<div class="about-section">
-    <h2 class="about-subtitle">3. Compromisso com a Qualidade</h2>
-    <p class="about-text">
-        Nosso sistema foi desenvolvido com base nas melhores práticas de engenharia de software, priorizando:
-        <br><br>
-        •   Segurança no armazenamento e gerenciamento de arquivos;<br>    
-        •   Validação eficiente de dados e conteúdos enviados;<br>
-        •   Interface responsiva, limpa e intuitiva;<br>
-        •   Alto desempenho mesmo sob grande volume de acessos.<br>
-        •   Trabalhamos continuamente para garantir uma plataforma estável, confiável e em constante evolução.
-    </p>
-</div>
-
-<div class="about-section">
-    <h2 class="about-subtitle">4. Fale Conosco</h2>
-    <p class="about-text">
-        Para dúvidas, sugestões, suporte técnico ou oportunidades de parceria, entre em contato com nossa equipe:
-        <br><br>
-        E-mail: TechImperium.ti@gmail.com
-    </p>
-</div>
-
-<div class="about-section">
-    <h2 class="about-subtitle">5. Agradecimentos</h2>
-    <p class="about-text">
-        Agradecemos a todos os usuários que escolhem o Poste Aqui como sua plataforma de confiança. 
-        Cada imagem compartilhada, cada visita ao feed e cada sugestão enviada fortalece nossa comunidade e nos inspira a continuar inovando. 
-        É por meio do apoio de vocês que conseguimos transformar uma ideia em uma ferramenta útil e acessível.
-    </p>
-</div>
-
-<div class="about-section">
-    <h2 class="about-subtitle">6. Mais informações</h2>
-    <p class="about-text">
-        O uso da nossa plataforma é guiado por princípios de respeito, segurança e integridade. 
-        Para garantir uma experiência justa e segura para todos, recomendamos a leitura dos nossos 
-        <a href="{{ url_for('Termos_de_Uso') }}" class="about-link">Termos de Uso</a> e 
-        <a href="{{ url_for('Politica_de_privacidade') }}" class="about-link">Política de Privacidade</a>.
-        Nesses documentos, você encontrará informações sobre direitos, responsabilidades e diretrizes de uso da nossa aplicação.
-    </p>
-</div>
+{% for section in [
+    ('1. Introdução', 'Poste Aqui é uma plataforma criada pela Tech Imperium com o objetivo de oferecer um ambiente moderno, intuitivo e funcional para a descoberta, compartilhamento e download de imagens. Nosso compromisso é proporcionar uma experiência eficiente e agradável, atendendo às necessidades de quem busca conteúdo visual de forma organizada e acessível.'),
+    ('2. Nosso Propósito', 'Nossa Propósito é facilitar o acesso e o gerenciamento de imagens por meio de uma plataforma que une tecnologia, usabilidade e desempenho. Acreditamos no poder da imagem como forma de comunicação e expressão, e por isso, criamos uma solução que atende tanto quem busca por inspiração quanto quem deseja compartilhar seu conteúdo com o mundo. • No Poste Aqui, os usuários podem: • Enviar imagens de forma rápida e segura; • Utilizar tags para organizar e categorizar seu conteúdo; • Realizar buscas eficientes por temas, estilos ou palavras-chave; • Baixar imagens com comodidade e confiabilidade. Unimos praticidade com performance para atender à crescente demanda por conteúdo visual de qualidade, promovendo a liberdade criativa e o compartilhamento responsável.'),
+    ('3. Compromisso com a Qualidade', 'Nosso sistema foi desenvolvido com base nas melhores práticas de engenharia de software, priorizando: • Segurança no armazenamento e gerenciamento de arquivos; • Validação eficiente de dados e conteúdos enviados; • Interface responsiva, limpa e intuitiva; • Alto desempenho mesmo sob grande volume de acessos. Trabalhamos continuamente para garantir uma plataforma estável, confiável e em constante evolução.'),
+    ('4. Fale Conosco', 'Para dúvidas, sugestões, suporte técnico ou oportunidades de parceria, entre em contato com nossa equipe: E-mail: TechImperium.ti@gmail.com'),
+    ('5. Agradecimentos', 'Agradecemos a todos os usuários que escolhem o Poste Aqui como sua plataforma de confiança. Cada imagem compartilhada, cada visita ao feed e cada sugestão enviada fortalece nossa comunidade e nos inspira a continuar inovando. É por meio do apoio de vocês que conseguimos transformar uma ideia em uma ferramenta útil e acessível.'),
+    ('6. Mais informações', 'O uso da nossa plataforma é guiado por princípios de respeito, segurança e integridade. Para garantir uma experiência justa e segura para todos, recomendamos a leitura dos nossos <a href="{{ url_for('Termos_de_Uso') }}" class="about-link">Termos de Uso</a> e <a href="{{ url_for('Politica_de_privacidade') }}" class="about-link">Política de Privacidade</a>. Nesses documentos, você encontrará informações sobre direitos, responsabilidades e diretrizes de uso da nossa aplicação.')
+] %}
+    <div class="about-section">
+        <h2 class="about-subtitle">{{ section[0] }}</h2>
+        <p class="about-text">{{ section[1] }}</p>
+    </div>
+    <br>
+{% endfor %}
 
 {% include "routes_nav.html" %}
 

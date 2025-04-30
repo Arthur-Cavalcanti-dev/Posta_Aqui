@@ -1,40 +1,40 @@
 {% extends "homepage.html" %}
 
 {% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/verificacaodeemail.css') }}">
-
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/verificacaodeemail.css') }}">
 {% endblock %}
 
 {% block body %}
 
-<div class="titulo-com-mascote">
-  <img 
-    class="mascote-principal" 
-    src="{{ url_for('static', filename='imagens_site/Life_5.png') }}" 
-    alt="Mascote principal"
-  >
-  <h1 class="main-title">Posta Aqui</h1>
-</div>
-
-{% include "nav.html" %}
-
-<div class="container">
-  <div class="confirmation-container">
+  <div class="titulo-com-mascote">
     <img 
-      class="confirmation-image" 
-      src="{{ url_for('static', filename='imagens_site/Life_2.png') }}" 
-      alt="Imagem de confirmação de e-mail"
+      class="mascote-principal" 
+      src="{{ url_for('static', filename='imagens_site/Life_5.png') }}" 
+      alt="Mascote principal"
     >
-
-    <h1 class="confirmation-title">Olhe seu email para confirmarmos sua conta!</h1>
-
-    <p class="confirmation-text">
-      <strong class="confirmation-warning">Não encontrou nosso e-mail?</strong><br>
-      Verifique também sua caixa de spam, lixo eletrônico ou promoções. Às vezes nossos emails vão parar lá sem querer.
-    </p>
+    <h1 class="main-title">Posta Aqui</h1>
   </div>
-</div>
 
-{% include "routes_nav.html" %}
+  {% include "nav.html" %}
+
+  <div class="container">
+    <div class="confirmation-container">
+      <img 
+        class="confirmation-image" 
+        src="{{ url_for('static', filename='imagens_site/Life_2.png') }}" 
+        alt="Imagem de confirmação de e-mail"
+      >
+
+      <h1 class="confirmation-title">Olhe seu email para confirmarmos sua conta!</h1>
+
+      <p class="confirmation-text">
+        <strong class="confirmation-warning">Não encontrou nosso e-mail?</strong><br>
+        Verifique também sua caixa de spam, lixo eletrônico ou promoções. Às vezes nossos e-mails vão parar lá sem querer.
+      </p>
+    </div>
+  </div>
+
+  {% include "routes_nav.html" %}
 
 {% endblock %}
+
