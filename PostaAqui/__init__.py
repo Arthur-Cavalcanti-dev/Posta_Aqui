@@ -19,10 +19,7 @@ app.config["MAIL_PORT"] = 587
 app.config["MAIL_USE_TLS"] = True
 app.config['MAIL_USERNAME'] = os.getenv("MAIL_USERNAME")
 app.config['MAIL_PASSWORD'] = os.getenv("MAIL_PASSWORD")
-app.config['SESSION_COOKIE_SECURE'] = True  # só HTTPS
-app.config['SESSION_COOKIE_HTTPONLY'] = True  # não acessível por JS
-app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
-app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024  # 5MB
+
 
 
 # atribuições

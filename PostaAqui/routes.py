@@ -281,8 +281,3 @@ def Politica_de_privacidade():
 def perguntas_frequentes():
     return render_template ("perguntas_frequentes.html")
 
-@app.before_request
-def forcar_https():
-    if request.headers.get('X-Forwarded-Proto', 'http') == 'http':
-        url = request.url.replace('http://', 'https://', 1)
-        return redirect(url, code=301)
