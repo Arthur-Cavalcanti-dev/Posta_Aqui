@@ -280,4 +280,3 @@ def Politica_de_privacidade():
 @app.route("/perguntas_frequentes")
 def perguntas_frequentes():
     return render_template ("perguntas_frequentes.html")
-
