@@ -1,6 +1,6 @@
 # 📸 PostaAqui
 
-**PostaAqui** é um site feito com Python e Flask que permite às pessoas postar fotos, pesquisar por tags, denunciar conteúdo e criar contas com confirmação por e-mail. É um projeto criado com fins educacionais.
+**PostaAqui** é um site feito com Python e Flask que permite às pessoas postar fotos, descobrir e compartilhar fotos. É um projeto criado com fins educacionais.
 
 ---
 
