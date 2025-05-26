@@ -27,7 +27,7 @@ O projeto contém as seguintes partes principais:
 - **forms.py** – Gerencia os formulários do site  
 - **requirements.txt** – Lista os pacotes usados no projeto  
 - **.gitignore** – Evita que arquivos sensíveis sejam enviados ao GitHub  
-- **seguranca.env** – Arquivo com senhas e chaves secretas (não deve ser enviado ao GitHub)
+- **seguranca.env** – Arquivo com senhas e chaves secretas
 
 ---
 
